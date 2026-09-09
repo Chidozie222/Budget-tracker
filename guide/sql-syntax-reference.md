@@ -1,4 +1,4 @@
-# SQL Syntax Reference
+## SQL Syntax Reference
 
 Every SQL keyword and construct covered in this project, plus the
 essential ones every SQL user needs, organized by category. Examples use

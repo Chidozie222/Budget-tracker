@@ -1,2 +1,12 @@
 ### health check
 GET http://localhost:4000/health
+
+### sign up
+POST http://localhost:4000/api/v1/auth/sign-up
+Content-Type: application/json
+
+{
+    "name": "Ibenne John",
+    "email": "ibennejohn3@gmail.com",
+    "password": "1111"
+}
