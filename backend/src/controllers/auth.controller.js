@@ -8,6 +8,7 @@ import {
   findRefreshTokenByUserId,
   post_user,
   storeHashedRefreshToken,
+  updateRefreshToken,
 } from "../repositories/user.repository.js";
 import { createAccessToken, hashRefreshToken } from "../utils/auth.utilty.js";
 
@@ -16,14 +17,17 @@ export const signUp = async (req, res) => {
 
   if (name.trim() === "" && name === null) {
     res.status(400).json({ message: "Please provide a name" });
+    return;
   }
 
   if (email.trim() === "" && email === null) {
     res.status(400).json({ message: "Please provide a email" });
+    return;
   }
 
   if (password.trim() === "" && password === null) {
     res.status(400).json({ message: "Please provide a password" });
+    return;
   }
 
   let hashedPassword = await bcrypt.hashSync(password, 10);
@@ -37,10 +41,12 @@ export const signin = async (req, res) => {
 
   if (email.trim() === "" && email === null) {
     res.status(400).json({ message: "Please provide a email" });
+    return;
   }
 
   if (password.trim() === "" && password === null) {
     res.status(400).json({ message: "Please provide a password" });
+    return;
   }
 
   let getUserData = await findByEmail(email);
@@ -64,6 +70,8 @@ export const signin = async (req, res) => {
       let data = await findRefreshTokenByUserId(getUserData.id);
       if (data === undefined) {
         await storeHashedRefreshToken(getUserData.id, _hashRefreshToken);
+      } else {
+        await updateRefreshToken(getUserData.user_id, _hashRefreshToken)
       }
 
       res.status(200).json({

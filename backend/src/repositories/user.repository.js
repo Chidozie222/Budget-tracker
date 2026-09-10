@@ -64,3 +64,13 @@ export const deleteRefreshToken = async (token) => {
     [token]
   );
 } 
+
+export const updateRefreshToken = async (userId, token) => {
+  await db.query(
+    `
+    UPDATE refresh_tokens SET token_hash=$1, created_at=NOW()
+    WHERE user_id=$2
+    `,
+    [token, userId],
+  );
+}
