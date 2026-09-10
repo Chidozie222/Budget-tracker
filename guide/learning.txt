@@ -6,3 +6,16 @@
 404 -> not found
 409 -> conflict
 500 -> server error
+
+
+ "data": {
+    "id": 5,
+    "name": "Ibenne John",
+    "email": "ibennejohn3@gmail.com",
+    "password": "$2b$10$FvX68X2GM7Ot8D8nwLFCf.zehnynLi/2wpIMVOlOlnYJ.1Gy4ja.a",
+    "role": "USER",
+    "created_at": "2026-09-09T04:49:13.163Z",
+    "updated_at": "2026-09-09T04:49:13.163Z",
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg4OTg2NjEzLCJleHAiOjE3ODg5ODc1MTN9.RXRzTWw1nz_JHQJ-vB9jJU-GxRtC1rdeU2mthZrccW4",
+    "refreshToken": "50092110b15c06628b0fd38baa34f52c871e575b911dfdcaf66a939290bb265779889ee66a63e4b028fb82b833"
+  }

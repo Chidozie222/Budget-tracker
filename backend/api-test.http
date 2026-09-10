@@ -10,3 +10,23 @@ Content-Type: application/json
     "email": "ibennejohn0@gmail.com",
     "password": "1111"
 }
+
+### sign in
+POST http://localhost:4000/api/v1/auth/login
+Content-Type: application/json
+
+{
+    "email": "ibennejohn3@gmail.com",
+    "password": "1111"
+}
+
+### refresh Token
+POST http://localhost:4000/api/v1/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "265777c51cdb8083d28b9d9c1006565cfb808470934529cf5e8dcd8cbece31576f29544484b3cfa0c8e5d11d6e"
+}
+
+### refresh Token
+DELETE  http://localhost:4000/api/v1/auth/logout/50092110b15c06628b0fd38baa34f52c871e575b911dfdcaf66a939290bb265779889ee66a63e4b028fb82b833
