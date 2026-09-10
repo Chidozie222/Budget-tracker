@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS budgets (
 
 CREATE TABLE IF NOT EXISTS categories (
     id          SERIAL PRIMARY KEY,
-    budget_id   INTEGER NOT NULL REFERENCES budgets(id) ON DELETE CASCADE,
+    budget_id   INTEGER REFERENCES budgets(id) ON DELETE CASCADE,
     name        VARCHAR(255) NOT NULL,
     owner_type  VARCHAR(10) NOT NULL CHECK (owner_type IN ('ADMIN', 'USER')),
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
