@@ -12,3 +12,25 @@ export const create_Budget = async (user_id, name, income, end_date) => {
 
   return result.rows[0];
 };
+
+export const getAllBudget = async (userId) => {
+  const result = await db.query(
+    `
+    SELECT * FROM budgets WHERE user_id=$1 ORDER BY start_date DESC
+    `,
+    [userId],
+  );
+
+  return result.rows;
+};
+
+export const getBudgetById = async (id, userId) => {
+  const result = await db.query(
+    `
+    SELECT * FROM budgets WHERE id=$1 AND user_id=$2
+    `,
+    [id, userId],
+  );
+
+  return result.rows[0];
+};

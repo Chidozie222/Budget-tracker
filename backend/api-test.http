@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5MDkzMDk3LCJleHAiOjE3ODkwOTM5OTd9.-XfzapSqchj1lw7_Li-g1gh_alhhYgauGEk3lY9Hmq8
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5MDk5NjcxLCJleHAiOjE3ODkxMDA1NzF9.FtJiT7cX1Urt33BYnTdUcBHao4vNtE6Dgq1l0jYDm6w
 
 ### health check
 GET http://localhost:4000/health
@@ -34,7 +34,7 @@ Content-Type: application/json
 ### refresh Token
 DELETE  {{baseUrl}}/auth/logout/50092110b15c06628b0fd38baa34f52c871e575b911dfdcaf66a939290bb265779889ee66a63e4b028fb82b833
 
-### 
+### post budget
 POST {{baseUrl}}/budgets
 Authorization: Bearer {{accessToken}}
 Content-Type: application/json
@@ -44,3 +44,11 @@ Content-Type: application/json
     "income": 40000,
     "end_date": "2026-09-14"
 }
+
+### get all budgets
+GET {{baseUrl}}/budgets
+Authorization: Bearer {{accessToken}}
+
+### get budget
+GET {{baseUrl}}/budgets/2
+Authorization: Bearer {{accessToken}}
