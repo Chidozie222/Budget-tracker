@@ -15,17 +15,17 @@ import { createAccessToken, hashRefreshToken } from "../utils/auth.utilty.js";
 export const signUp = async (req, res) => {
   const { name, email, password } = req.body;
 
-  if (name.trim() === "" && name === null) {
+  if (name.trim() === "" || name === null) {
     res.status(400).json({ message: "Please provide a name" });
     return;
   }
 
-  if (email.trim() === "" && email === null) {
+  if (email.trim() === "" || email === null) {
     res.status(400).json({ message: "Please provide a email" });
     return;
   }
 
-  if (password.trim() === "" && password === null) {
+  if (password.trim() === "" || password === null) {
     res.status(400).json({ message: "Please provide a password" });
     return;
   }
@@ -39,12 +39,12 @@ export const signUp = async (req, res) => {
 export const signin = async (req, res) => {
   const { email, password } = req.body;
 
-  if (email.trim() === "" && email === null) {
+  if (email.trim() === "" || email === null) {
     res.status(400).json({ message: "Please provide a email" });
     return;
   }
 
-  if (password.trim() === "" && password === null) {
+  if (password.trim() === "" || password === null) {
     res.status(400).json({ message: "Please provide a password" });
     return;
   }

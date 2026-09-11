@@ -22,6 +22,17 @@ export const findByEmail = async (email) => {
   return result.rows[0];
 };
 
+export const findById = async (id) => {
+  const result = await db.query(
+    `
+      SELECT name FROM users WHERE id=$1
+    `,
+    [id],
+  );
+
+  return result.rows[0];
+};
+
 export const storeHashedRefreshToken = async (userId, hash_token) => {
   await db.query(
     `
