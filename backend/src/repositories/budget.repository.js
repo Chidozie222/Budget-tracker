@@ -1,6 +1,8 @@
 import { db } from "../config/db.js";
 
-export const create_Budget = async (user_id, name, income, end_date) => {
+let BudgetRepository;
+
+const createBudget = async (user_id, name, income, end_date) => {
   const result = await db.query(
     `
         INSERT INTO budgets (user_id, name, income, start_date, end_date, created_at, updated_at)
@@ -13,7 +15,7 @@ export const create_Budget = async (user_id, name, income, end_date) => {
   return result.rows[0];
 };
 
-export const getAllBudget = async (userId) => {
+const getAllBudget = async (userId) => {
   const result = await db.query(
     `
     SELECT * FROM budgets WHERE user_id=$1 ORDER BY start_date DESC
@@ -24,7 +26,7 @@ export const getAllBudget = async (userId) => {
   return result.rows;
 };
 
-export const getBudgetById = async (id, userId) => {
+const getBudgetById = async (id, userId) => {
   const result = await db.query(
     `
     SELECT * FROM budgets WHERE id=$1 AND user_id=$2
@@ -34,3 +36,5 @@ export const getBudgetById = async (id, userId) => {
 
   return result.rows[0];
 };
+
+export default BudgetRepository = { createBudget, getAllBudget, getBudgetById };

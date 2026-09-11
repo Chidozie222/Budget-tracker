@@ -10,14 +10,14 @@ configDotenv();
 
 const PORT = process.env.PORT;
 
+console.log(PORT);
+
 const app = express();
 
 // app.use(cors());
 app.use(logger);
 app.use(express.json());
 app.use("/api/v1", routes);
-
-
 
 app.use(error);
 

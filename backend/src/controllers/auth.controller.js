@@ -31,6 +31,7 @@ export const signUp = async (req, res) => {
   }
 
   let hashedPassword = await bcrypt.hashSync(password, 10);
+  console.log(hashedPassword);
   let user = await post_user(name, email, hashedPassword);
 
   res.status(201).json({ message: "user created successfully", data: user });
@@ -71,7 +72,7 @@ export const signin = async (req, res) => {
       if (data === undefined) {
         await storeHashedRefreshToken(getUserData.id, _hashRefreshToken);
       } else {
-        await updateRefreshToken(getUserData.user_id, _hashRefreshToken)
+        await updateRefreshToken(getUserData.user_id, _hashRefreshToken);
       }
 
       res.status(200).json({

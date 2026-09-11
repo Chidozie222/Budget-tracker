@@ -1,10 +1,8 @@
-import {
-  create_Budget,
-  getAllBudget,
-  getBudgetById,
-} from "../repositories/budget.repository.js";
+import BudgetRepository from "../repositories/budget.repository.js";
 
-export const createBudget = async (user_id, name, income, end_date) => {
+let BudgetService;
+
+const createBudget = async (user_id, name, income, end_date) => {
   if ((name === null || income === null, end_date === null)) {
     return {
       statusCode: 400,
@@ -14,7 +12,12 @@ export const createBudget = async (user_id, name, income, end_date) => {
     };
   }
 
-  let result = await create_Budget(user_id, name, income, end_date);
+  let result = await BudgetRepository.createBudget(
+    user_id,
+    name,
+    income,
+    end_date,
+  );
 
   return {
     statusCode: 201,
@@ -25,8 +28,8 @@ export const createBudget = async (user_id, name, income, end_date) => {
   };
 };
 
-export const get_all_budget = async (userId) => {
-  let result = await getAllBudget(userId);
+const getAllBudget = async (userId) => {
+  let result = await BudgetRepository.getAllBudget(userId);
 
   return {
     statusCode: 200,
@@ -34,7 +37,7 @@ export const get_all_budget = async (userId) => {
   };
 };
 
-export const get_Budget = async (budgetId, userId) => {
+const getBudget = async (budgetId, userId) => {
   if (budgetId < 0) {
     return {
       statusCode: 400,
@@ -44,10 +47,12 @@ export const get_Budget = async (budgetId, userId) => {
     };
   }
 
-  let result = await getBudgetById(budgetId, userId);
+  let result = await BudgetRepository.getBudgetById(budgetId, userId);
 
   return {
     statusCode: 200,
     data: result,
   };
 };
+
+export default BudgetService = { createBudget, getAllBudget, getBudget };

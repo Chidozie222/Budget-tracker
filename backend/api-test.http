@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5MDk5NjcxLCJleHAiOjE3ODkxMDA1NzF9.FtJiT7cX1Urt33BYnTdUcBHao4vNtE6Dgq1l0jYDm6w
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5MTYyMTcxLCJleHAiOjE3ODkxNjMwNzF9.gAeb4lzdOeyiDjmNI-6kJZ6VvvCvaHcHo9ULFnfx4rs
 
 ### health check
 GET http://localhost:4000/health
@@ -50,5 +50,5 @@ GET {{baseUrl}}/budgets
 Authorization: Bearer {{accessToken}}
 
 ### get budget
-GET {{baseUrl}}/budgets/2
+GET {{baseUrl}}/budgets/4
 Authorization: Bearer {{accessToken}}
