@@ -9,7 +9,7 @@ export const authorize = (req, res, next) => {
   }
 
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SERCET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     req.user = decoded; // { userId, role }
     next();
   } catch (err) {

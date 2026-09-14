@@ -66,22 +66,21 @@ export const findRefreshTokenByUserId = async (id) => {
   return result.rows[0];
 };
 
-
 export const deleteRefreshToken = async (token) => {
   await db.query(
     `
     DELETE FROM refresh_tokens WHERE token_hash=$1
     `,
-    [token]
+    [token],
   );
-} 
+};
 
 export const updateRefreshToken = async (userId, token) => {
   await db.query(
     `
-    UPDATE refresh_tokens SET token_hash=$1, created_at=NOW()
+    UPDATE refresh_tokens SET token_hash=$1,expires_at=INTERVAL '30 days', created_at=NOW()
     WHERE user_id=$2
     `,
     [token, userId],
   );
-}
+};

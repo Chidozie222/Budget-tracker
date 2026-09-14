@@ -11,27 +11,33 @@ import {
   updateRefreshToken,
 } from "../repositories/user.repository.js";
 import { createAccessToken, hashRefreshToken } from "../utils/auth.utilty.js";
+import { validEmail, validName, validPassword } from "../utils/vaildaion.js";
 
 export const signUp = async (req, res) => {
   const { name, email, password } = req.body;
 
-  if (name.trim() === "" || name === null) {
+  if (!validName(name)) {
     res.status(400).json({ message: "Please provide a name" });
     return;
   }
 
-  if (email.trim() === "" || email === null) {
+  if (!validEmail(email)) {
     res.status(400).json({ message: "Please provide a email" });
     return;
   }
 
-  if (password.trim() === "" || password === null) {
+  if (!validPassword(password)) {
     res.status(400).json({ message: "Please provide a password" });
     return;
   }
 
-  let hashedPassword = await bcrypt.hashSync(password, 10);
-  console.log(hashedPassword);
+  const findUser = await findByEmail(email);
+
+  if (findUser !== undefined) {
+    return res.status(409).json({ message: "User already exists" });
+  }
+
+  let hashedPassword = bcrypt.hashSync(password, 10);
   let user = await post_user(name, email, hashedPassword);
 
   res.status(201).json({ message: "user created successfully", data: user });
@@ -57,10 +63,7 @@ export const signin = async (req, res) => {
       message: "No data found connect to this email. please sign up.",
     });
   } else {
-    let verifyPassword = await bcrypt.compareSync(
-      password,
-      getUserData.password,
-    );
+    let verifyPassword = bcrypt.compareSync(password, getUserData.password);
 
     if (verifyPassword) {
       let accessToken = createAccessToken(getUserData);

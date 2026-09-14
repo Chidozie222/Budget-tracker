@@ -3,7 +3,7 @@ import BudgetRepository from "../repositories/budget.repository.js";
 let BudgetService;
 
 const createBudget = async (user_id, name, income, end_date) => {
-  if ((name === null || income === null, end_date === null)) {
+  if (!name || income == null || !end_date) {
     return {
       statusCode: 400,
       data: {
@@ -38,7 +38,7 @@ const getAllBudget = async (userId) => {
 };
 
 const getBudget = async (budgetId, userId) => {
-  if (budgetId < 0) {
+  if (budgetId == null) {
     return {
       statusCode: 400,
       data: {

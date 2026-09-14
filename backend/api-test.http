@@ -9,8 +9,8 @@ POST {{baseUrl}}/auth/sign-up
 Content-Type: application/json
 
 {
-    "name": "Ibenne John",
-    "email": "ibennejohn0@gmail.com",
+    "name": "joe",
+    "email": "ibennejohn3@gmail.com",
     "password": "1111"
 }
 
