@@ -24,16 +24,16 @@ const getAllBudgets = async (req, res) => {
   res.status(result.statusCode).json(result.data);
 };
 
-const getBudget = async (req, res) => {
+const getBudgetById = async (req, res) => {
   const { budgetId } = req.params;
 
   if (budgetId < 0) {
     return res.status(400).json({ message: "Please provide a budget Id" });
   }
 
-  let result = await BudgetService.getBudget(budgetId, req.user.userId);
+  let result = await BudgetService.getBudgetById(budgetId, req.user.userId);
 
   res.status(result.statusCode).json(result.data);
 };
 
-export default BudgetController = { createBudget, getAllBudgets, getBudget };
+export default BudgetController = { createBudget, getAllBudgets, getBudgetById };

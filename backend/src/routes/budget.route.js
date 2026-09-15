@@ -7,6 +7,10 @@ const budget = Router();
 
 budget.post("/", authorize, asyncHandler(BugetController.createBudget));
 budget.get("/", authorize, asyncHandler(BugetController.getAllBudgets));
-budget.get("/:budgetId", authorize, asyncHandler(BugetController.getBudget));
+budget.get(
+  "/:budgetId",
+  authorize,
+  asyncHandler(BugetController.getBudgetById),
+);
 
 export default budget;

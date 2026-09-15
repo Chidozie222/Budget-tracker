@@ -1,13 +1,23 @@
 import BudgetRepository from "../repositories/budget.repository.js";
+import { validDataFormat, validName } from "../utils/vaildation.js";
 
 let BudgetService;
 
 const createBudget = async (user_id, name, income, end_date) => {
-  if (!name || income == null || !end_date) {
+  if (!validName(name) || income == null) {
     return {
       statusCode: 400,
       data: {
-        message: "Please name, income and end date are required",
+        message: "Please name and income are required",
+      },
+    };
+  }
+
+  if (!validDataFormat(end_date)) {
+    return {
+      statausCode: 400,
+      data: {
+        message: "Please provide the correct data format YYYY-MM-DD",
       },
     };
   }
@@ -37,7 +47,7 @@ const getAllBudget = async (userId) => {
   };
 };
 
-const getBudget = async (budgetId, userId) => {
+const getBudgetById = async (budgetId) => {
   if (budgetId == null) {
     return {
       statusCode: 400,
@@ -47,7 +57,7 @@ const getBudget = async (budgetId, userId) => {
     };
   }
 
-  let result = await BudgetRepository.getBudgetById(budgetId, userId);
+  let result = await BudgetRepository.getBudgetById(budgetId);
 
   return {
     statusCode: 200,
@@ -55,4 +65,4 @@ const getBudget = async (budgetId, userId) => {
   };
 };
 
-export default BudgetService = { createBudget, getAllBudget, getBudget };
+export default BudgetService = { createBudget, getAllBudget, getBudgetById };

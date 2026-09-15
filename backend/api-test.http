@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5MTYyMTcxLCJleHAiOjE3ODkxNjMwNzF9.gAeb4lzdOeyiDjmNI-6kJZ6VvvCvaHcHo9ULFnfx4rs
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NTAxNDQyLCJleHAiOjE3ODk1MDIzNDJ9.j2_FxEH6W8RUNt8q5dvwjPfCpXKa56Oy3qBSewx5O70
+
 
 ### health check
 GET http://localhost:4000/health
@@ -40,9 +41,9 @@ Authorization: Bearer {{accessToken}}
 Content-Type: application/json
 
 {
-    "name": "2 week budget",
+    "name": "100 week budget",
     "income": 40000,
-    "end_date": "2026-09-14"
+    "end_date": "2026-09-24"
 }
 
 ### get all budgets
@@ -51,4 +52,18 @@ Authorization: Bearer {{accessToken}}
 
 ### get budget
 GET {{baseUrl}}/budgets/4
+Authorization: Bearer {{accessToken}}
+
+### create category
+POST {{baseUrl}}/categories
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "budgetId": 3,
+    "name": "eletricity"
+}
+
+### get all categories
+GET {{baseUrl}}/categories/3
 Authorization: Bearer {{accessToken}}

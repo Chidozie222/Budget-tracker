@@ -26,12 +26,12 @@ const getAllBudget = async (userId) => {
   return result.rows;
 };
 
-const getBudgetById = async (id, userId) => {
+const getBudgetById = async (id) => {
   const result = await db.query(
     `
-    SELECT * FROM budgets WHERE id=$1 AND user_id=$2
+    SELECT * FROM budgets WHERE id=$1
     `,
-    [id, userId],
+    [id],
   );
 
   return result.rows[0];
