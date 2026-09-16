@@ -55,7 +55,6 @@ CREATE TABLE IF NOT EXISTS savings (
     id          SERIAL PRIMARY KEY,
     budget_id   INTEGER NOT NULL REFERENCES budgets(id) ON DELETE CASCADE,
     amount      NUMERIC(14,2) NOT NULL CHECK (amount >= 0),
-    type        VARCHAR(10) NOT NULL CHECK (type IN ('PLANNED', 'LEFTOVER')),
     description VARCHAR(500),
     date        DATE NOT NULL,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),

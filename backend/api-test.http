@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NTAxNDQyLCJleHAiOjE3ODk1MDIzNDJ9.j2_FxEH6W8RUNt8q5dvwjPfCpXKa56Oy3qBSewx5O70
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NTM0NTkwLCJleHAiOjE3ODk1MzU0OTB9.Qj4S9cFYPW8fpHAJ9FYm4LGGrhUbl-bNXBO-wKCOGCI
 
 
 ### health check
@@ -66,4 +66,56 @@ Content-Type: application/json
 
 ### get all categories
 GET {{baseUrl}}/categories/3
+Authorization: Bearer {{accessToken}}
+
+
+### get all categories
+POST {{baseUrl}}/expenses
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "expenses": [
+        {
+            "budgetId": 10,
+            "categoryId": 5,
+            "name": "1 book",
+            "amount": 3000
+        },
+        {
+            "budgetId": 10,
+            "categoryId": 5,
+            "name": "2 book",
+            "amount": 3000
+        },
+        {
+            "budgetId": 10,
+            "categoryId": 5,
+            "name": "3 book",
+            "amount": 3000
+        },
+        {
+            "budgetId": 10,
+            "categoryId": 5,
+            "name": "4 book",
+            "amount": 3000
+        },
+        {
+            "budgetId": 10,
+            "categoryId": 5,
+            "name": "5 book",
+            "amount": 3000
+        },
+        {
+            "budgetId": 10,
+            "categoryId": 5,
+            "name": "6 book",
+            "amount": 3000
+        }
+    ]
+}
+
+
+### get all categories
+GET {{baseUrl}}/expenses/10
 Authorization: Bearer {{accessToken}}

@@ -26,4 +26,15 @@ const listAllCategory = async (budgetId) => {
   return result.rows;
 };
 
-export default categoryRepository = { createCategory, listAllCategory };
+const getCategoryById = async (categoryId) => {
+  const result = await db.query(
+    `
+    SELECT * FROM categories WHERE id=$1
+    `,
+    [categoryId],
+  );
+
+  return result.rows;
+};
+
+export default categoryRepository = { createCategory, listAllCategory, getCategoryById };
