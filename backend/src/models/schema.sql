@@ -55,11 +55,27 @@ CREATE TABLE IF NOT EXISTS savings (
     id          SERIAL PRIMARY KEY,
     budget_id   INTEGER NOT NULL REFERENCES budgets(id) ON DELETE CASCADE,
     amount      NUMERIC(14,2) NOT NULL CHECK (amount >= 0),
+    type        VARCHAR(20) NOT NULL DEFAULT 'LEFTOVER' CHECK (type IN ('PLANNED', 'LEFTOVER')),
     description VARCHAR(500),
-    date        DATE NOT NULL,
+    date        DATE NOT NULL DEFAULT CURRENT_DATE,
     created_at  TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at  TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+
+ALTER TABLE IF EXISTS savings
+    ADD COLUMN IF NOT EXISTS type VARCHAR(20) NOT NULL DEFAULT 'LEFTOVER';
+
+DO $$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM pg_constraint
+        WHERE conname = 'savings_type_check'
+    ) THEN
+        ALTER TABLE savings
+        ADD CONSTRAINT savings_type_check CHECK (type IN ('PLANNED', 'LEFTOVER'));
+    END IF;
+END $$;
 
 CREATE TABLE IF NOT EXISTS refresh_tokens (
     id          SERIAL PRIMARY KEY,

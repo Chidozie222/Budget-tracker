@@ -1,6 +1,7 @@
 import budgetRepository from "../repositories/budget.repository.js";
 import expenseRepository from "../repositories/expense.repository.js";
 import transactionRepository from "../repositories/transaction.repository.js";
+import savingRepository from "../repositories/saving.repository.js";
 import { daysBetween, round2 } from "../utils/dailySummary.utiliy.js";
 
 const dailySummaryService = async (budgetId, currentDate) => {
@@ -16,6 +17,8 @@ const dailySummaryService = async (budgetId, currentDate) => {
   const budget = await budgetRepository.getBudgetById(budgetId);
   const totalFixedExpenses =
     await expenseRepository.getTotalFixedExpenses(budgetId);
+  const totalPlannedSavings =
+    await savingRepository.getTotalPlannedSavings(budgetId);
   const totalExpenditureFromPrevoiusDay =
     await transactionRepository.getTotalExpensesFromPerviousDay(
       budgetId,
@@ -27,7 +30,7 @@ const dailySummaryService = async (budgetId, currentDate) => {
       currentDate,
     );
 
-  const budgetAmount = budget.income - totalFixedExpenses;
+  const budgetAmount = budget.income - totalFixedExpenses - totalPlannedSavings;
   const remainingBudgetAmount = budgetAmount - totalExpenditureFromPrevoiusDay;
   const totalNumberOfDays = daysBetween(budget.start_date, budget.end_date);
   const daysPassed = daysBetween(budget.start_date, currentDate) - 1;

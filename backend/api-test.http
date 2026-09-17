@@ -1,5 +1,6 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NjgwMjgzLCJleHAiOjE3ODk2ODExODN9.KfmkhNEweiWPHw8Oo3djw9VchTzJMk5AWGUdStkaZS4
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NjgyOTIzLCJleHAiOjE3ODk2ODM4MjN9.kJECBiPH3VAMYvPOTagn-mAl6buVkMe2jZuV1iWnGOY
+@budgetId = 10
 
 
 ### health check
@@ -135,6 +136,38 @@ Content-Type: application/json
 GET {{baseUrl}}/transactions/5?categoryId=6&date=2026-09-16
 Authorization: Bearer {{accessToken}}
 
-### get the daily summary
-GET {{baseUrl}}/dailySummaries/10
+### create planned saving
+POST {{baseUrl}}/budgets/{{budgetId}}/savings
 Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "amount": 2000,
+    "type": "PLANNED",
+    "description": "Emergency fund"
+}
+
+### list all savings for a budget
+GET {{baseUrl}}/budgets/{{budgetId}}/savings
+Authorization: Bearer {{accessToken}}
+
+### create leftover saving
+POST {{baseUrl}}/budgets/{{budgetId}}/savings
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "amount": 500,
+    "type": "LEFTOVER",
+    "description": "Underspend saved today"
+}
+
+### get the daily summary with planned saving included in budget math
+GET {{baseUrl}}/dailySummaries/{{budgetId}}?date=2026-09-17
+Authorization: Bearer {{accessToken}}
+
+### expected logic check
+# planned savings should reduce available budget exactly like fixed expenses.
+# Example: if income = 40000 and fixed expenses + planned savings = 5000 + 2000 = 7000,
+# then the remaining budget used in the daily summary should be calculated from 33000,
+# not from the full income amount.
