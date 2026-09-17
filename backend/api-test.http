@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NTM0NTkwLCJleHAiOjE3ODk1MzU0OTB9.Qj4S9cFYPW8fpHAJ9FYm4LGGrhUbl-bNXBO-wKCOGCI
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NjMzNDU0LCJleHAiOjE3ODk2MzQzNTR9.pgv_X8TkfbwhWWNk0XikqsQLhj11whedwj1X-b8cp2s
 
 
 ### health check
@@ -118,4 +118,19 @@ Content-Type: application/json
 
 ### get all categories
 GET {{baseUrl}}/expenses/10
+Authorization: Bearer {{accessToken}}
+
+### create transaction
+POST {{baseUrl}}/transactions
+Authorization: Bearer {{accessToken}}
+Content-Type: application/json
+
+{
+    "budgetId": 2,
+    "categoryId": 6,
+    "amount": 5000
+}
+
+### list all transactions by budget id and filter by category id or data
+GET {{baseUrl}}/transactions/5?categoryId=6&date=2026-09-16
 Authorization: Bearer {{accessToken}}
