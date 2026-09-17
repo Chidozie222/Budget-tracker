@@ -1,6 +1,6 @@
 import budgetRepository from "../repositories/budget.repository.js";
 import categoryRepository from "../repositories/category.repository.js";
-import { validName } from "../utils/vaildation.js";
+import { validName } from "../utils/validation.js";
 
 let categoryService;
 

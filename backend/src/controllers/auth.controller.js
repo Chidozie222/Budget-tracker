@@ -11,7 +11,7 @@ import {
   updateRefreshToken,
 } from "../repositories/user.repository.js";
 import { createAccessToken, hashRefreshToken } from "../utils/auth.utilty.js";
-import { validEmail, validName, validPassword } from "../utils/vaildation.js";
+import { validEmail, validName, validPassword } from "../utils/validation.js";
 
 export const signUp = async (req, res) => {
   const { name, email, password } = req.body;

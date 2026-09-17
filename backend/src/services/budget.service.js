@@ -1,5 +1,5 @@
 import budgetRepository from "../repositories/budget.repository.js";
-import { validDataFormat, validName } from "../utils/vaildation.js";
+import { validDataFormat, validName } from "../utils/validation.js";
 
 let BudgetService;
 

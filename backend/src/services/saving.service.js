@@ -1,6 +1,6 @@
 import budgetRepository from "../repositories/budget.repository.js";
 import savingRepository from "../repositories/saving.repository.js";
-import { validDataFormat } from "../utils/vaildation.js";
+import { validDataFormat } from "../utils/validation.js";
 
 let SavingService;
 
