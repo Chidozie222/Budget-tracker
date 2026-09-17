@@ -1,4 +1,4 @@
-import transactionService from "../services/Transaction.service.js";
+import transactionService from "../services/transaction.service.js";
 
 let transactionController;
 

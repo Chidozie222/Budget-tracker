@@ -1,7 +1,7 @@
 import budgetRepository from "../repositories/budget.repository.js";
 import { validDataFormat, validName } from "../utils/validation.js";
 
-let BudgetService;
+let budgetService;
 
 const createBudget = async (user_id, name, income, end_date) => {
   if (!validName(name) || income == null) {
@@ -65,4 +65,4 @@ const getBudgetById = async (budgetId) => {
   };
 };
 
-export default BudgetService = { createBudget, getAllBudget, getBudgetById };
+export default budgetService = { createBudget, getAllBudget, getBudgetById };
