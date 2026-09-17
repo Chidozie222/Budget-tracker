@@ -26,4 +26,20 @@ const listAllExpenses = async (budgetId) => {
   return result.rows;
 };
 
-export default expenseRepository = { createExpense, listAllExpenses };
+const getTotalFixedExpenses = async (budgetId) => {
+  const result = await db.query(
+    `
+    SELECT COALESCE(SUM(amount), 0) AS total FROM fixed_expenses
+    WHERE budget_id=$1
+    `,
+    [budgetId],
+  );
+
+  return parseFloat(result.rows[0].total);
+};
+
+export default expenseRepository = {
+  createExpense,
+  listAllExpenses,
+  getTotalFixedExpenses,
+};

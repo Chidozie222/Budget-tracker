@@ -27,7 +27,34 @@ const listAllTransactionAndFilter = async (budgetId, categoryId, date) => {
   return result.rows;
 };
 
+const getTotalExpensesFromPerviousDay = async (budgetId, currentDate) => {
+  console.log(budgetId, currentDate);
+  const result = await db.query(
+    `
+    SELECT COALESCE(SUM(amount), 0) AS total FROM transactions
+    WHERE budget_id=$1 AND date < $2
+    `,
+    [budgetId, currentDate],
+  );
+
+  return parseFloat(result.rows[0].total);
+};
+
+const getTotalExpensesFromCurrentDay = async (budgetId, currentDate) => {
+  const result = await db.query(
+    `
+    SELECT COALESCE(SUM(amount), 0) AS total FROM transactions
+    WHERE budget_id=$1 AND date=$2
+    `,
+    [budgetId, currentDate],
+  );
+
+  return parseFloat(result.rows[0].total);
+};
+
 export default transactionRepository = {
   createTransaction,
   listAllTransactionAndFilter,
+  getTotalExpensesFromPerviousDay,
+  getTotalExpensesFromCurrentDay,
 };

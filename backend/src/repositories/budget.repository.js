@@ -1,6 +1,6 @@
 import { db } from "../config/db.js";
 
-let BudgetRepository;
+let budgetRepository;
 
 const createBudget = async (user_id, name, income, end_date) => {
   const result = await db.query(
@@ -37,4 +37,4 @@ const getBudgetById = async (id) => {
   return result.rows[0];
 };
 
-export default BudgetRepository = { createBudget, getAllBudget, getBudgetById };
+export default budgetRepository = { createBudget, getAllBudget, getBudgetById };
