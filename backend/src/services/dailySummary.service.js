@@ -2,7 +2,7 @@ import budgetRepository from "../repositories/budget.repository.js";
 import expenseRepository from "../repositories/expense.repository.js";
 import transactionRepository from "../repositories/transaction.repository.js";
 import savingRepository from "../repositories/saving.repository.js";
-import { daysBetween, round2 } from "../utils/dailySummary.utiliy.js";
+import { daysBetween, round2 } from "../utils/dailySummary.utility.js";
 
 const dailySummaryService = async (budgetId, currentDate) => {
   if (budgetId === null || budgetId === undefined) {
