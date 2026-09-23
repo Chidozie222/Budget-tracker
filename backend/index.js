@@ -10,8 +10,6 @@ configDotenv();
 
 const PORT = process.env.PORT;
 
-console.log(PORT);
-
 const app = express();
 
 // app.use(cors());
@@ -25,6 +23,6 @@ app.get("/health", (req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, "0.0.0.0", () => {
   console.log(`This server is running on port ${PORT}`);
 });
