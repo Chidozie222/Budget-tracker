@@ -12,6 +12,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signUp, isLoading, error } = useAuth();
+  const [isPassword, setIsPassword] = useState(true);
 
   const navigation = useNavigation();
 
@@ -70,7 +71,7 @@ const Register = () => {
       >
         <CtextInput
           label="Password"
-          isPassword={true}
+          isPassword={isPassword}
           value={password}
           setValue={setPassword}
           placeHolder={"Password"}
@@ -79,10 +80,14 @@ const Register = () => {
           style={{
             position: "absolute",
             right: 30,
-            bottom: 23,
+            bottom: 28,
+          }}
+          onPress={() => {
+            console.log(isPassword);
+            setIsPassword(!isPassword);
           }}
         >
-          <Text style={{ color: "#000" }}>E</Text>
+          <Text style={{ color: "#000" }}>{isPassword ? "view" : "hide"}</Text>
         </TouchableOpacity>
       </View>
       {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
@@ -91,7 +96,9 @@ const Register = () => {
         onPress={HandleSignUpApICall}
         disabled={isLoading}
       >
-        <Text style={style.buttonText}>{isLoading ? "Registering..." : "Register"}</Text>
+        <Text style={style.buttonText}>
+          {isLoading ? "Registering..." : "Register"}
+        </Text>
       </TouchableOpacity>
 
       <View style={style.subContainer}>

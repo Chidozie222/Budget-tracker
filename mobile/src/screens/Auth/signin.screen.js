@@ -11,6 +11,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signIn, isLoading, error } = useAuth();
+  const [isPassword, setIsPassword] = useState(true);
 
   const navigation = useNavigation();
 
@@ -26,7 +27,7 @@ const SignIn = () => {
 
     try {
       const result = await signIn(email, password);
-      console.log(result)
+      console.log(result);
       alert(result?.message || "Sign in successful");
       // navigation.navigate("Home");
     } catch (err) {
@@ -50,20 +51,43 @@ const SignIn = () => {
         setValue={setEmail}
         placeHolder={"Email"}
       />
-      <CtextInput
-        label="Password"
-        isPassword={true}
-        value={password}
-        setValue={setPassword}
-        placeHolder={"Password"}
-      />
+      <View
+        style={{
+          width: "100%",
+          alignItems: "center",
+          position: "relative",
+        }}
+      >
+        <CtextInput
+          label="Password"
+          isPassword={isPassword}
+          value={password}
+          setValue={setPassword}
+          placeHolder={"Password"}
+        />
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            right: 30,
+            bottom: 28,
+          }}
+          onPress={() => {
+            console.log(isPassword);
+            setIsPassword(!isPassword);
+          }}
+        >
+          <Text style={{ color: "#000" }}>{isPassword ? "view" : "hide"}</Text>
+        </TouchableOpacity>
+      </View>
       {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
       <TouchableOpacity
         style={[style.button, isLoading && { opacity: 0.6 }]}
         onPress={HandleSignInApICall}
         disabled={isLoading}
       >
-        <Text style={style.buttonText}>{isLoading ? "Signing In..." : "Sign In"}</Text>
+        <Text style={style.buttonText}>
+          {isLoading ? "Signing In..." : "Sign In"}
+        </Text>
       </TouchableOpacity>
 
       <View style={style.subContainer}>

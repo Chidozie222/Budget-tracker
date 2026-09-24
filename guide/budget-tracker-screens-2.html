@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Budget Tracker — Screen Mockups</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-app:#0B1424;
+    --bg-card:#141F35;
+    --bg-card-2:#182541;
+    --border:#22304C;
+    --green:#1DD3B0;
+    --green-dim:#12261F;
+    --red:#F0405B;
+    --red-dim:#2A1620;
+    --blue:#3B82F6;
+    --blue-dim:#122238;
+    --indigo:#6C6CF5;
+    --indigo-dim:#1B1B3A;
+    --orange:#F5A623;
+    --orange-dim:#2E230F;
+    --purple:#8B7CF6;
+    --purple-dim:#211B3D;
+    --text-primary:#FFFFFF;
+    --text-secondary:#8C98AE;
+    --text-muted:#5C687E;
+    --radius-lg:20px;
+    --radius-md:14px;
+    --radius-sm:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#060B14;
+    font-family:'Inter',sans-serif;
+    color:var(--text-primary);
+    padding:40px 24px 80px;
+  }
+  h1.page-title{
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-size:22px;
+    text-align:center;
+    margin:0 0 6px;
+  }
+  p.page-sub{
+    text-align:center;
+    color:var(--text-secondary);
+    font-size:14px;
+    margin:0 0 40px;
+  }
+  .frames{
+    display:flex;
+    flex-wrap:wrap;
+    gap:28px;
+    justify-content:center;
+  }
+  .frame-block{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+  .frame-label{
+    font-size:13px;
+    color:var(--text-secondary);
+    font-weight:500;
+    letter-spacing:.2px;
+  }
+  .phone{
+    width:300px;
+    height:640px;
+    background:#000;
+    border-radius:38px;
+    padding:10px;
+    box-shadow:0 0 0 2px #1c2438;
+  }
+  .screen{
+    width:100%;
+    height:100%;
+    background:var(--bg-app);
+    border-radius:28px;
+    overflow:hidden;
+    position:relative;
+    display:flex;
+    flex-direction:column;
+  }
+  .statusbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:14px 22px 4px;
+    font-size:12px;
+    font-weight:600;
+    color:var(--text-primary);
+  }
+  .content{
+    flex:1;
+    overflow:hidden;
+    padding:14px 18px 0;
+  }
+  .top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand-mark{
+    width:26px;height:26px;border-radius:8px;
+    background:var(--green-dim);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .brand-mark svg{width:15px;height:15px;}
+  .brand-text .t1{font-family:'Poppins',sans-serif;font-weight:600;font-size:15px;line-height:1.1;}
+  .brand-text .t2{font-size:10px;color:var(--text-secondary);}
+  .budget-switch{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-secondary);font-weight:500;}
+  .screen-title{font-family:'Poppins',sans-serif;font-weight:600;font-size:20px;}
+  .icon-btn{
+    width:34px;height:34px;border-radius:10px;
+    background:var(--bg-card);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .icon-btn svg{width:16px;height:16px;stroke:var(--text-secondary);}
+
+  /* Home */
+  .balance-card{
+    background:var(--bg-card);
+    border-radius:var(--radius-lg);
+    padding:16px 18px;
+    margin-bottom:14px;
+  }
+  .balance-label{font-size:12px;color:var(--text-secondary);margin-bottom:6px;}
+  .balance-amount{font-family:'Poppins',sans-serif;font-size:26px;font-weight:600;}
+  .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px;}
+  .stat-card{
+    background:var(--bg-card);
+    border-radius:var(--radius-md);
+    padding:12px 14px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .stat-icon{width:32px;height:32px;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .stat-icon svg{width:15px;height:15px;}
+  .stat-label{font-size:10.5px;color:var(--text-secondary);}
+  .stat-value{font-size:14px;font-weight:600;font-family:'Poppins',sans-serif;}
+  .section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  .section-head .h{font-size:13.5px;font-weight:600;}
+  .section-head .a{font-size:11.5px;color:var(--green);}
+  .tx-row{display:flex;align-items:center;gap:12px;padding:9px 0;}
+  .tx-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .tx-icon svg{width:16px;height:16px;}
+  .tx-name{font-size:13.5px;font-weight:500;}
+  .tx-time{font-size:11px;color:var(--text-muted);}
+  .tx-amt{margin-left:auto;font-size:13.5px;font-weight:600;font-family:'Poppins',sans-serif;}
+
+  /* Bottom nav */
+  .navbar{
+    display:flex;
+    justify-content:space-around;
+    align-items:center;
+    padding:10px 6px 16px;
+    border-top:1px solid var(--border);
+    background:var(--bg-app);
+  }
+  .nav-item{display:flex;flex-direction:column;align-items:center;gap:3px;}
+  .nav-item svg{width:19px;height:19px;}
+  .nav-item span{font-size:9.5px;color:var(--text-muted);}
+  .nav-item.active svg{stroke:var(--green);}
+  .nav-item.active span{color:var(--green);font-weight:600;}
+  .nav-item:not(.active) svg{stroke:var(--text-muted);}
+
+  /* Transactions screen */
+  .segment{
+    display:flex;background:var(--bg-card);border-radius:12px;padding:4px;margin-bottom:16px;
+  }
+  .seg-btn{flex:1;text-align:center;padding:8px 0;border-radius:9px;font-size:12px;font-weight:500;color:var(--text-secondary);}
+  .seg-btn.on{background:var(--green-dim);color:var(--green);font-weight:600;}
+  .date-group{font-size:11.5px;color:var(--text-muted);margin:14px 0 8px;font-weight:600;letter-spacing:.3px;}
+
+  /* Budgets screen */
+  .budget-card{
+    background:var(--bg-card);
+    border-radius:var(--radius-md);
+    padding:16px;
+    margin-bottom:12px;
+  }
+  .budget-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+  .budget-name{font-size:14.5px;font-weight:600;font-family:'Poppins',sans-serif;}
+  .budget-range{font-size:11px;color:var(--text-muted);margin-top:2px;}
+  .budget-pill{font-size:10px;font-weight:600;padding:4px 10px;border-radius:20px;}
+  .pill-active{background:var(--green-dim);color:var(--green);}
+  .pill-ended{background:var(--bg-card-2);color:var(--text-muted);}
+  .progress-track{height:6px;background:var(--bg-card-2);border-radius:6px;overflow:hidden;margin-bottom:8px;}
+  .progress-fill{height:100%;background:var(--green);border-radius:6px;}
+  .budget-foot{display:flex;justify-content:space-between;font-size:11.5px;color:var(--text-secondary);}
+  .budget-foot b{color:var(--text-primary);font-weight:600;}
+  .fab{
+    position:absolute;right:18px;bottom:96px;
+    width:48px;height:48px;border-radius:16px;
+    background:var(--green);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .fab svg{width:20px;height:20px;stroke:#04211B;}
+
+  /* Profile screen */
+  .profile-head{display:flex;flex-direction:column;align-items:center;margin:6px 0 22px;}
+  .avatar{width:64px;height:64px;border-radius:20px;background:var(--indigo-dim);display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:22px;font-weight:600;color:var(--indigo);margin-bottom:10px;}
+  .profile-name{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;}
+  .profile-email{font-size:12px;color:var(--text-secondary);margin-top:2px;}
+  .setting-group{background:var(--bg-card);border-radius:var(--radius-md);margin-bottom:12px;overflow:hidden;}
+  .setting-row{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--border);}
+  .setting-row:last-child{border-bottom:none;}
+  .setting-icon{width:30px;height:30px;border-radius:9px;background:var(--bg-card-2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .setting-icon svg{width:14px;height:14px;stroke:var(--text-secondary);}
+  .setting-label{font-size:13px;font-weight:500;flex:1;}
+  .chev{width:14px;height:14px;stroke:var(--text-muted);}
+  .logout-row .setting-icon{background:var(--red-dim);}
+  .logout-row .setting-icon svg{stroke:var(--red);}
+  .logout-row .setting-label{color:var(--red);}
+
+  /* Palette + type spec */
+  .spec{
+    max-width:760px;
+    margin:70px auto 0;
+    background:#0E1728;
+    border:1px solid #1C2740;
+    border-radius:18px;
+    padding:32px 30px;
+  }
+  .spec h2{font-family:'Poppins',sans-serif;font-size:17px;font-weight:600;margin:0 0 18px;}
+  .spec h3{font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.6px;margin:26px 0 12px;}
+  .swatch-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+  .swatch{border:1px solid #1C2740;border-radius:12px;overflow:hidden;}
+  .swatch-color{height:52px;}
+  .swatch-info{padding:8px 10px;background:#101B2E;}
+  .swatch-name{font-size:12px;font-weight:600;}
+  .swatch-hex{font-size:11px;color:var(--text-muted);font-family:monospace;}
+  .type-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #1C2740;font-size:13px;}
+  .type-row:last-child{border-bottom:none;}
+  .type-role{color:var(--text-secondary);}
+
+  /* Forms (Add Transaction / Add Category) */
+  .back-row{display:flex;align-items:center;gap:12px;margin-bottom:20px;}
+  .amount-block{text-align:center;margin:10px 0 26px;}
+  .amount-block .cur{font-size:15px;color:var(--text-secondary);margin-bottom:4px;}
+  .amount-block .val{font-family:'Poppins',sans-serif;font-size:34px;font-weight:600;}
+  .amount-block .val span{color:var(--text-muted);}
+  .form-label{font-size:11.5px;color:var(--text-secondary);font-weight:600;margin:0 0 8px;text-transform:uppercase;letter-spacing:.4px;}
+  .field{background:var(--bg-card);border-radius:var(--radius-sm);padding:12px 14px;font-size:13.5px;color:var(--text-primary);margin-bottom:20px;}
+  .field.muted{color:var(--text-muted);display:flex;justify-content:space-between;align-items:center;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .chip{display:flex;align-items:center;gap:6px;padding:8px 12px;border-radius:20px;background:var(--bg-card);font-size:12px;font-weight:500;color:var(--text-secondary);}
+  .chip svg{width:13px;height:13px;}
+  .chip.on{background:var(--green-dim);color:var(--green);}
+  .chip.on svg{stroke:var(--green);}
+  .color-grid{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px;}
+  .color-dot{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+  .color-dot.on{box-shadow:0 0 0 2px var(--bg-app),0 0 0 4px currentColor;}
+  .color-dot svg{width:14px;height:14px;stroke:#0B1424;}
+  .btn-primary{background:var(--green);color:#04211B;text-align:center;font-weight:600;font-size:14px;padding:14px 0;border-radius:14px;margin-top:auto;}
+  .btn-secondary{background:var(--bg-card);color:var(--text-primary);text-align:center;font-weight:600;font-size:14px;padding:14px 0;border-radius:14px;}
+  .content.form-flow{display:flex;flex-direction:column;padding-bottom:18px;}
+
+  /* Underspend modal */
+  .modal-overlay{position:absolute;inset:0;background:rgba(6,11,20,.72);display:flex;align-items:flex-end;}
+  .modal-sheet{width:100%;background:var(--bg-card);border-radius:24px 24px 0 0;padding:22px 20px 26px;}
+  .modal-handle{width:36px;height:4px;background:var(--border);border-radius:4px;margin:0 auto 18px;}
+  .modal-icon{width:52px;height:52px;border-radius:16px;background:var(--green-dim);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;}
+  .modal-icon svg{width:24px;height:24px;stroke:var(--green);}
+  .modal-title{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;text-align:center;margin-bottom:6px;}
+  .modal-sub{font-size:12.5px;color:var(--text-secondary);text-align:center;margin-bottom:4px;line-height:1.5;}
+  .modal-amount{font-family:'Poppins',sans-serif;font-size:24px;font-weight:600;color:var(--green);text-align:center;margin:10px 0 20px;}
+  .modal-actions{display:flex;flex-direction:column;gap:10px;}
+</style>
+</head>
+<body>
+
+<h1 class="page-title">Budget Tracker — screen set</h1>
+<p class="page-sub">Extended from your home screen design · same palette, type, and component language throughout</p>
+
+<div class="frames">
+
+  <!-- HOME (reference, rebuilt) -->
+  <div class="frame-block">
+    <div class="frame-label">Home</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content">
+        <div class="top-row">
+          <div class="brand">
+            <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.4"><path d="M3 17l6-6 4 4 8-8"/></svg></div>
+            <div class="brand-text"><div class="t1">Budget Tracker</div>
+              <div class="budget-switch">100 week budget <svg width="10" height="10" fill="none" stroke="#8C98AE" stroke-width="2"><path d="M2 3.5l3 3 3-3"/></svg></div>
+            </div>
+          </div>
+        </div>
+        <div class="balance-card">
+          <div class="balance-label">Total balance</div>
+          <div class="balance-amount">₦85,000</div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-icon" style="background:var(--green-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div><div><div class="stat-label">Income</div><div class="stat-value">₦120,000</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:var(--red-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F0405B" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div><div><div class="stat-label">Expenses</div><div class="stat-value">₦35,000</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:var(--blue-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#3B82F6" stroke-width="2.5"><circle cx="12" cy="12" r="8"/></svg></div><div><div class="stat-label">Today's spend</div><div class="stat-value">₦2,500</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:var(--indigo-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#6C6CF5" stroke-width="2.5"><path d="M4 19h16M8 15v-4M12 15V7M16 15v-2"/></svg></div><div><div class="stat-label">Daily limit</div><div class="stat-value">₦5,000</div></div></div>
+        </div>
+        <div class="section-head"><span class="h">Recent transactions</span><span class="a">View all</span></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--orange-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2.3"><path d="M4 7h16l-1.5 11h-13z"/></svg></div><div><div class="tx-name">Food</div><div class="tx-time">Today · 12:30 pm</div></div><div class="tx-amt" style="color:var(--red)">−₦2,000</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--purple-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#8B7CF6" stroke-width="2.3"><path d="M3 13l2-6h14l2 6M5 13v5M19 13v5"/></svg></div><div><div class="tx-name">Transport</div><div class="tx-time">Today · 10:15 am</div></div><div class="tx-amt" style="color:var(--red)">−₦1,500</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--green-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.3"><path d="M5 13a7 7 0 0114 0"/></svg></div><div><div class="tx-name">Data</div><div class="tx-time">Yesterday · 8:45 pm</div></div><div class="tx-amt" style="color:var(--red)">−₦1,000</div></div>
+      </div>
+      <div class="navbar">
+        <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Transactions</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg><span>Budgets</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg><span>Profile</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- TRANSACTIONS -->
+  <div class="frame-block">
+    <div class="frame-label">Transactions</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content">
+        <div class="top-row"><div class="screen-title">Transactions</div><div class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M7 12h10M10 18h4"/></svg></div></div>
+        <div class="segment">
+          <div class="seg-btn on">All</div><div class="seg-btn">Income</div><div class="seg-btn">Expense</div>
+        </div>
+        <div class="date-group">Today</div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--orange-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2.3"><path d="M4 7h16l-1.5 11h-13z"/></svg></div><div><div class="tx-name">Food</div><div class="tx-time">12:30 pm · Food</div></div><div class="tx-amt" style="color:var(--red)">−₦2,000</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--purple-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#8B7CF6" stroke-width="2.3"><path d="M3 13l2-6h14l2 6M5 13v5M19 13v5"/></svg></div><div><div class="tx-name">Transport</div><div class="tx-time">10:15 am · Transport</div></div><div class="tx-amt" style="color:var(--red)">−₦1,500</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--green-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.3"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div><div><div class="tx-name">Salary</div><div class="tx-time">9:02 am · Income</div></div><div class="tx-amt" style="color:var(--green)">+₦120,000</div></div>
+        <div class="date-group">Yesterday</div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--green-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.3"><path d="M5 13a7 7 0 0114 0"/></svg></div><div><div class="tx-name">Data</div><div class="tx-time">8:45 pm · Data</div></div><div class="tx-amt" style="color:var(--red)">−₦1,000</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--orange-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2.3"><path d="M4 7h16l-1.5 11h-13z"/></svg></div><div><div class="tx-name">Groceries</div><div class="tx-time">6:20 pm · Food</div></div><div class="tx-amt" style="color:var(--red)">−₦4,200</div></div>
+      </div>
+      <div class="navbar">
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></div>
+        <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Transactions</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg><span>Budgets</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg><span>Profile</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- BUDGETS -->
+  <div class="frame-block">
+    <div class="frame-label">Budgets</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content">
+        <div class="top-row"><div class="screen-title">Budgets</div><div class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></div></div>
+
+        <div class="budget-card" style="border:1px solid var(--green);">
+          <div class="budget-top">
+            <div><div class="budget-name">100 week budget</div><div class="budget-range">1 Sep – 24 Sep 2026</div></div>
+            <div class="budget-pill pill-active">Active</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:29%"></div></div>
+          <div class="budget-foot"><span>Spent <b>₦35,000</b></span><span>Left <b>₦85,000</b></span></div>
+        </div>
+
+        <div class="budget-card">
+          <div class="budget-top">
+            <div><div class="budget-name">August budget</div><div class="budget-range">1 Aug – 31 Aug 2026</div></div>
+            <div class="budget-pill pill-ended">Ended</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;background:var(--text-muted)"></div></div>
+          <div class="budget-foot"><span>Spent <b>₦92,400</b></span><span>Left <b>₦0</b></span></div>
+        </div>
+
+        <div class="budget-card">
+          <div class="budget-top">
+            <div><div class="budget-name">School fees budget</div><div class="budget-range">1 Jul – 31 Jul 2026</div></div>
+            <div class="budget-pill pill-ended">Ended</div>
+          </div>
+          <div class="progress-track"><div class="progress-fill" style="width:100%;background:var(--text-muted)"></div></div>
+          <div class="budget-foot"><span>Spent <b>₦60,000</b></span><span>Left <b>₦0</b></span></div>
+        </div>
+      </div>
+      <div class="fab"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></div>
+      <div class="navbar">
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Transactions</span></div>
+        <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg><span>Budgets</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg><span>Profile</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- BUDGET DETAIL -->
+  <div class="frame-block">
+    <div class="frame-label">Budget detail</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content">
+        <div class="back-row" style="justify-content:space-between;margin-bottom:14px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M11 3L4 9l7 6"/></svg>
+            <div class="screen-title" style="font-size:16px">100 week budget</div>
+          </div>
+          <div class="budget-pill pill-active">Active</div>
+        </div>
+        <div class="balance-card" style="margin-bottom:12px;">
+          <div class="balance-label">1 Sep – 24 Sep 2026 · 8 days left</div>
+          <div class="balance-amount" style="font-size:22px;">₦85,000 <span style="font-size:12px;color:var(--text-muted);font-weight:400;">remaining</span></div>
+          <div class="progress-track" style="margin-top:12px;"><div class="progress-fill" style="width:29%"></div></div>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card"><div class="stat-icon" style="background:var(--green-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div><div><div class="stat-label">Income</div><div class="stat-value">₦120,000</div></div></div>
+          <div class="stat-card"><div class="stat-icon" style="background:var(--red-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F0405B" stroke-width="2.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg></div><div><div class="stat-label">Spent</div><div class="stat-value">₦35,000</div></div></div>
+        </div>
+        <div class="section-head"><span class="h">By category</span></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--orange-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2.3"><path d="M4 7h16l-1.5 11h-13z"/></svg></div><div><div class="tx-name">Food</div><div class="tx-time">6 transactions</div></div><div class="tx-amt">₦18,200</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--purple-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#8B7CF6" stroke-width="2.3"><path d="M3 13l2-6h14l2 6M5 13v5M19 13v5"/></svg></div><div><div class="tx-name">Transport</div><div class="tx-time">4 transactions</div></div><div class="tx-amt">₦9,300</div></div>
+        <div class="section-head" style="margin-top:16px;"><span class="h">Recent transactions</span><span class="a">View all</span></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--orange-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#F5A623" stroke-width="2.3"><path d="M4 7h16l-1.5 11h-13z"/></svg></div><div><div class="tx-name">Food</div><div class="tx-time">Today · 12:30 pm</div></div><div class="tx-amt" style="color:var(--red)">−₦2,000</div></div>
+        <div class="tx-row"><div class="tx-icon" style="background:var(--green-dim)"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.3"><path d="M5 13a7 7 0 0114 0"/></svg></div><div><div class="tx-name">Data</div><div class="tx-time">Yesterday · 8:45 pm</div></div><div class="tx-amt" style="color:var(--red)">−₦1,000</div></div>
+      </div>
+      <div class="fab" style="bottom:20px"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.4"><path d="M12 5v14M5 12h14"/></svg></div>
+    </div></div>
+  </div>
+
+  <!-- PROFILE -->
+  <div class="frame-block">
+    <div class="frame-label">Profile</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content">
+        <div class="top-row"><div class="screen-title">Profile</div><div style="width:34px"></div></div>
+        <div class="profile-head">
+          <div class="avatar">CJ</div>
+          <div class="profile-name">Chidozie</div>
+          <div class="profile-email">chidozie@example.com</div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-row"><div class="setting-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg></div><div class="setting-label">Edit profile</div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+          <div class="setting-row"><div class="setting-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 8a6 6 0 00-12 0c0 5-2 6-2 6h16s-2-1-2-6M10 20a2 2 0 004 0"/></svg></div><div class="setting-label">Notification preferences</div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+          <div class="setting-row"><div class="setting-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></div><div class="setting-label">Security</div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-row"><div class="setting-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16h.01"/></svg></div><div class="setting-label">Help &amp; support</div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg></div>
+          <div class="setting-row logout-row"><div class="setting-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg></div><div class="setting-label">Log out</div></div>
+        </div>
+      </div>
+      <div class="navbar">
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Transactions</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg><span>Budgets</span></div>
+        <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg><span>Profile</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ADD TRANSACTION -->
+  <div class="frame-block">
+    <div class="frame-label">Add transaction</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content form-flow">
+        <div class="back-row"><svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M11 3L4 9l7 6" transform="translate(0,0)"/></svg><div class="screen-title" style="font-size:16px">Add transaction</div></div>
+
+        <div class="amount-block">
+          <div class="cur">Amount (₦)</div>
+          <div class="val">3,000<span>.00</span></div>
+        </div>
+
+        <div class="form-label">Category</div>
+        <div class="chip-row">
+          <div class="chip on"><svg viewBox="0 0 24 24" stroke="#1DD3B0" stroke-width="2.3"><path d="M4 7h16l-1.5 11h-13z"/></svg>Food</div>
+          <div class="chip"><svg viewBox="0 0 24 24" stroke="#8C98AE" stroke-width="2.3"><path d="M3 13l2-6h14l2 6M5 13v5M19 13v5"/></svg>Transport</div>
+          <div class="chip"><svg viewBox="0 0 24 24" stroke="#8C98AE" stroke-width="2.3"><path d="M5 13a7 7 0 0114 0"/></svg>Data</div>
+          <div class="chip">Utilities</div>
+          <div class="chip">Health</div>
+          <div class="chip">Other</div>
+        </div>
+
+        <div class="form-label">Description (optional)</div>
+        <div class="field">1 book</div>
+
+        <div class="form-label">Date</div>
+        <div class="field muted">Today · 24 Sep 2026<svg width="14" height="14" fill="none" stroke="#5C687E" stroke-width="2"><rect x="2" y="4" width="10" height="9" rx="1.5"/><path d="M2 6.5h10M4.5 2v3M9.5 2v3"/></svg></div>
+
+        <div class="btn-primary">Save transaction</div>
+      </div>
+      <div class="navbar">
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></div>
+        <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Transactions</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg><span>Budgets</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg><span>Profile</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- ADD CATEGORY -->
+  <div class="frame-block">
+    <div class="frame-label">Add category</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content form-flow">
+        <div class="back-row"><svg width="18" height="18" fill="none" stroke="#fff" stroke-width="2"><path d="M11 3L4 9l7 6"/></svg><div class="screen-title" style="font-size:16px">Add category</div></div>
+
+        <div class="form-label">Category name</div>
+        <div class="field" style="color:var(--text-muted)">Electricity</div>
+
+        <div class="form-label">Color</div>
+        <div class="color-grid">
+          <div class="color-dot on" style="background:var(--green-dim);color:#1DD3B0"><svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg></div>
+          <div class="color-dot" style="background:var(--orange-dim);color:#F5A623"></div>
+          <div class="color-dot" style="background:var(--purple-dim);color:#8B7CF6"></div>
+          <div class="color-dot" style="background:var(--blue-dim);color:#3B82F6"></div>
+          <div class="color-dot" style="background:var(--red-dim);color:#F0405B"></div>
+          <div class="color-dot" style="background:var(--indigo-dim);color:#6C6CF5"></div>
+        </div>
+
+        <div class="form-label">Budget</div>
+        <div class="field muted">100 week budget<svg width="14" height="14" fill="none" stroke="#5C687E" stroke-width="2"><path d="M4 6l4 4 4-4"/></svg></div>
+
+        <div class="btn-primary">Save category</div>
+      </div>
+      <div class="navbar">
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 11l8-7 8 7v9a1 1 0 01-1 1h-4v-6H9v6H5a1 1 0 01-1-1z"/></svg><span>Home</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h10"/></svg><span>Transactions</span></div>
+        <div class="nav-item active"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18"/></svg><span>Budgets</span></div>
+        <div class="nav-item"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="8" r="3.2"/><path d="M5 20c1.5-4 4.2-6 7-6s5.5 2 7 6"/></svg><span>Profile</span></div>
+      </div>
+    </div></div>
+  </div>
+
+  <!-- UNDERSPEND PROMPT -->
+  <div class="frame-block">
+    <div class="frame-label">Underspend prompt</div>
+    <div class="phone"><div class="screen">
+      <div class="statusbar"><span>9:41</span><span>●●●</span></div>
+      <div class="content">
+        <div class="top-row">
+          <div class="brand">
+            <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none" stroke="#1DD3B0" stroke-width="2.4"><path d="M3 17l6-6 4 4 8-8"/></svg></div>
+            <div class="brand-text"><div class="t1">Budget Tracker</div><div class="t2">Take control of your money</div></div>
+          </div>
+        </div>
+        <div class="balance-card">
+          <div class="balance-label">Total balance</div>
+          <div class="balance-amount">₦85,000</div>
+        </div>
+      </div>
+      <div class="modal-overlay">
+        <div class="modal-sheet">
+          <div class="modal-handle"></div>
+          <div class="modal-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+          <div class="modal-title">You underspent today</div>
+          <div class="modal-sub">You budgeted ₦5,000 and spent ₦2,500. What should we do with the rest?</div>
+          <div class="modal-amount">+₦2,500 left over</div>
+          <div class="modal-actions">
+            <div class="btn-primary">Save it</div>
+            <div class="btn-secondary">Carry forward to tomorrow</div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+
+</div>
+
+<!-- SPEC SHEET -->
+<div class="spec">
+  <h2>Color palette</h2>
+  <div class="swatch-grid">
+    <div class="swatch"><div class="swatch-color" style="background:#0B1424"></div><div class="swatch-info"><div class="swatch-name">App background</div><div class="swatch-hex">#0B1424</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#141F35"></div><div class="swatch-info"><div class="swatch-name">Card surface</div><div class="swatch-hex">#141F35</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#1DD3B0"></div><div class="swatch-info"><div class="swatch-name">Brand green</div><div class="swatch-hex">#1DD3B0</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#F0405B"></div><div class="swatch-info"><div class="swatch-name">Expense red</div><div class="swatch-hex">#F0405B</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#3B82F6"></div><div class="swatch-info"><div class="swatch-name">Info blue</div><div class="swatch-hex">#3B82F6</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#6C6CF5"></div><div class="swatch-info"><div class="swatch-name">Indigo accent</div><div class="swatch-hex">#6C6CF5</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#F5A623"></div><div class="swatch-info"><div class="swatch-name">Food orange</div><div class="swatch-hex">#F5A623</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#8B7CF6"></div><div class="swatch-info"><div class="swatch-name">Transport purple</div><div class="swatch-hex">#8B7CF6</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#8C98AE"></div><div class="swatch-info"><div class="swatch-name">Secondary text</div><div class="swatch-hex">#8C98AE</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#5C687E"></div><div class="swatch-info"><div class="swatch-name">Muted text</div><div class="swatch-hex">#5C687E</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#22304C"></div><div class="swatch-info"><div class="swatch-name">Border / divider</div><div class="swatch-hex">#22304C</div></div></div>
+    <div class="swatch"><div class="swatch-color" style="background:#FFFFFF"></div><div class="swatch-info"><div class="swatch-name">Primary text</div><div class="swatch-hex">#FFFFFF</div></div></div>
+  </div>
+
+  <h3>Usage notes</h3>
+  <div class="type-row"><span>Green (#1DD3B0)</span><span class="type-role">income, positive numbers, active nav/tab, primary CTA</span></div>
+  <div class="type-row"><span>Red (#F0405B)</span><span class="type-role">expenses, negative numbers, destructive actions (logout)</span></div>
+  <div class="type-row"><span>Blue / Indigo</span><span class="type-role">neutral stat icons only (today's spend, daily limit)</span></div>
+  <div class="type-row"><span>Orange / Purple</span><span class="type-role">category icon backgrounds — one hue per category, reused consistently</span></div>
+
+  <h2 style="margin-top:36px">Typography</h2>
+  <div class="type-row"><span style="font-family:'Poppins',sans-serif;font-weight:600">Poppins — SemiBold</span><span class="type-role">app logo, screen titles, balances, card headings</span></div>
+  <div class="type-row"><span style="font-family:'Inter',sans-serif;font-weight:600">Inter — SemiBold</span><span class="type-role">stat values, transaction amounts, labels</span></div>
+  <div class="type-row"><span style="font-family:'Inter',sans-serif;font-weight:500">Inter — Medium</span><span class="type-role">body text, list rows, buttons</span></div>
+  <div class="type-row"><span style="font-family:'Inter',sans-serif;font-weight:400">Inter — Regular</span><span class="type-role">timestamps, helper text, captions</span></div>
+
+  <h3>Type scale</h3>
+  <div class="type-row"><span>26px / 600</span><span class="type-role">Balance / hero number (Poppins)</span></div>
+  <div class="type-row"><span>20px / 600</span><span class="type-role">Screen title (Poppins)</span></div>
+  <div class="type-row"><span>14–15px / 600</span><span class="type-role">Card titles, budget names</span></div>
+  <div class="type-row"><span>13–13.5px / 500</span><span class="type-role">Row labels, list items</span></div>
+  <div class="type-row"><span>11–12px / 400–500</span><span class="type-role">Secondary text, timestamps, captions</span></div>
+  <div class="type-row"><span>9.5–10.5px / 500</span><span class="type-role">Nav labels, tiny metadata</span></div>
+
+  <h3>Fonts to install</h3>
+  <div class="type-row"><span>Google Fonts</span><span class="type-role">Poppins (500, 600, 700) · Inter (400, 500, 600, 700)</span></div>
+  <div class="type-row"><span>React Native</span><span class="type-role">@expo-google-fonts/poppins + @expo-google-fonts/inter, loaded via useFonts()</span></div>
+
+  <h2 style="margin-top:36px">Icons</h2>
+  <div class="type-row"><span>Style used here</span><span class="type-role">hand-coded outline SVGs, 2–2.4px stroke, no fill — same family as Lucide / Feather / Tabler</span></div>
+  <div class="type-row"><span>Recommended set</span><span class="type-role">Lucide — closest match, actively maintained, has a React Native package</span></div>
+  <div class="type-row"><span>Package</span><span class="type-role">npm install lucide-react-native react-native-svg</span></div>
+  <div class="type-row"><span>Browse icons at</span><span class="type-role">lucide.dev</span></div>
+  <div class="type-row"><span>Alternatives</span><span class="type-role">Feather Icons (feathericons.com) · Tabler Icons (tabler.io/icons) — same thin-outline style</span></div>
+</div>
+
+</body>
+</html>

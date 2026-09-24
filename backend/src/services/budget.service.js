@@ -22,6 +22,21 @@ const createBudget = async (user_id, name, income, end_date) => {
     };
   }
 
+  let checkIfActiveBudget = await budgetRepository.getActiveBudget(user_id);
+
+  if (
+    checkIfActiveBudget !== null ||
+    checkIfActiveBudget !== undefined ||
+    checkIfActiveBudget?.length > 0
+  ) {
+    return {
+      statausCode: 400,
+      data: {
+        message: "There is an active budget already",
+      },
+    };
+  }
+
   let result = await budgetRepository.createBudget(
     user_id,
     name,
@@ -35,6 +50,15 @@ const createBudget = async (user_id, name, income, end_date) => {
       message: "Budget created successfully",
       data: result,
     },
+  };
+};
+
+const getActiveBudget = async (userId) => {
+  let result = await budgetRepository.getActiveBudget(userId);
+
+  return {
+    statusCode: 200,
+    data: result,
   };
 };
 
@@ -65,4 +89,9 @@ const getBudgetById = async (budgetId) => {
   };
 };
 
-export default budgetService = { createBudget, getAllBudget, getBudgetById };
+export default budgetService = {
+  createBudget,
+  getAllBudget,
+  getActiveBudget,
+  getBudgetById,
+};

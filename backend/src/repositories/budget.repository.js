@@ -26,6 +26,17 @@ const getAllBudget = async (userId) => {
   return result.rows;
 };
 
+const getActiveBudget = async (userId) => {
+  const result = await db.query(
+    `
+    SELECT * FROM budgets WHERE user_id=$1 AND end_date > NOW()
+    `,
+    [userId]
+  );
+
+  return result.rows[0]
+};
+
 const getBudgetById = async (id) => {
   const result = await db.query(
     `
@@ -37,4 +48,4 @@ const getBudgetById = async (id) => {
   return result.rows[0];
 };
 
-export default budgetRepository = { createBudget, getAllBudget, getBudgetById };
+export default budgetRepository = { createBudget, getAllBudget, getActiveBudget, getBudgetById };
