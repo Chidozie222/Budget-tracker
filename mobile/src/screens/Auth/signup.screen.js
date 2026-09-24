@@ -11,6 +11,7 @@ const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPassword, setIsPassword] = useState(false);
 
   const navigation = useNavigation();
 
@@ -54,13 +55,30 @@ const Register = () => {
         setValue={setEmail}
         placeHolder={"Email"}
       />
-      <CtextInput
-        label="Password"
-        isPassword={true}
-        value={password}
-        setValue={setPassword}
-        placeHolder={"Password"}
-      />
+      <View
+        style={{
+          width: "100%",
+          alignItems: "center",
+          position: "relative",
+        }}
+      >
+        <CtextInput
+          label="Password"
+          isPassword={true}
+          value={password}
+          setValue={setPassword}
+          placeHolder={"Password"}
+        />
+        <TouchableOpacity
+          style={{
+            position: "absolute",
+            right: 30,
+            bottom: 23,
+          }}
+        >
+          <Text style={{ color: "#000" }}>E</Text>
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity style={style.button} onPress={HandleSignUpApICall}>
         <Text style={style.buttonText}>Register</Text>
       </TouchableOpacity>
