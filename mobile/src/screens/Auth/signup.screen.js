@@ -4,32 +4,38 @@ import { TouchableOpacity, Text, View } from "react-native";
 import CtextInput from "../../components/textInput.component";
 import style from "../../styles/auth.style";
 import { useNavigation } from "@react-navigation/native";
-import { signup } from "../../api/auth.api";
 import { validName, validEmail, validPassword } from "../../utils/validation";
+import { useAuth } from "../../store/auth.context";
 
 const Register = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isPassword, setIsPassword] = useState(false);
+  const { signUp, isLoading, error } = useAuth();
 
   const navigation = useNavigation();
 
-  const HandleSignUpApICall = () => {
-    if (!validName(name)) {
+  const HandleSignUpApICall = async () => {
+    if (!validName(name?.trim())) {
       alert("Name is required");
       return;
     }
-    if (!validEmail(email)) {
+    if (!validEmail(email?.trim())) {
       alert("Email is required and the format is yourname@email.com");
       return;
     }
-    if (!validPassword(password)) {
+    if (!validPassword(password?.trim())) {
       alert("password is required");
       return;
     }
 
-    signup(name, email, password);
+    try {
+      const result = await signUp(name, email, password);
+      alert(result?.message || "Account created successfully");
+      navigation.navigate("SignIn");
+    } catch (err) {
+      alert(err.message || "Registration failed");
+    }
   };
 
   return (
@@ -79,8 +85,13 @@ const Register = () => {
           <Text style={{ color: "#000" }}>E</Text>
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={style.button} onPress={HandleSignUpApICall}>
-        <Text style={style.buttonText}>Register</Text>
+      {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
+      <TouchableOpacity
+        style={[style.button, isLoading && { opacity: 0.6 }]}
+        onPress={HandleSignUpApICall}
+        disabled={isLoading}
+      >
+        <Text style={style.buttonText}>{isLoading ? "Registering..." : "Register"}</Text>
       </TouchableOpacity>
 
       <View style={style.subContainer}>

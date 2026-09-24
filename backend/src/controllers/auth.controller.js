@@ -75,7 +75,7 @@ export const signin = async (req, res) => {
       if (data === undefined) {
         await storeHashedRefreshToken(getUserData.id, _hashRefreshToken);
       } else {
-        await updateRefreshToken(getUserData.user_id, _hashRefreshToken);
+        await updateRefreshToken(getUserData.id, _hashRefreshToken);
       }
 
       res.status(200).json({

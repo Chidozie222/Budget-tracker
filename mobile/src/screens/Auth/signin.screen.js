@@ -4,12 +4,35 @@ import { TouchableOpacity, Text, View } from "react-native";
 import CtextInput from "../../components/textInput.component";
 import style from "../../styles/auth.style";
 import { useNavigation } from "@react-navigation/native";
+import { validEmail, validPassword } from "../../utils/validation";
+import { useAuth } from "../../store/auth.context";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { signIn, isLoading, error } = useAuth();
 
   const navigation = useNavigation();
+
+  const HandleSignInApICall = async () => {
+    if (!validEmail(email?.trim())) {
+      alert("Email is required and the format is yourname@email.com");
+      return;
+    }
+    if (!validPassword(password?.trim())) {
+      alert("password is required");
+      return;
+    }
+
+    try {
+      const result = await signIn(email, password);
+      console.log(result)
+      alert(result?.message || "Sign in successful");
+      // navigation.navigate("Home");
+    } catch (err) {
+      alert(err.message || "Login failed");
+    }
+  };
 
   return (
     <KeyboardAvoidingView
@@ -34,8 +57,13 @@ const SignIn = () => {
         setValue={setPassword}
         placeHolder={"Password"}
       />
-      <TouchableOpacity style={style.button}>
-        <Text style={style.buttonText}>Sign In</Text>
+      {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
+      <TouchableOpacity
+        style={[style.button, isLoading && { opacity: 0.6 }]}
+        onPress={HandleSignInApICall}
+        disabled={isLoading}
+      >
+        <Text style={style.buttonText}>{isLoading ? "Signing In..." : "Sign In"}</Text>
       </TouchableOpacity>
 
       <View style={style.subContainer}>

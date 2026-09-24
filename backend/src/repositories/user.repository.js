@@ -36,7 +36,8 @@ export const findById = async (id) => {
 export const storeHashedRefreshToken = async (userId, hash_token) => {
   await db.query(
     `
-    INSERT INTO refresh_tokens (user_id, token_hash, expires_at, created_at) VALUES ($1, $2, NOW() + INTERVAL '30 days', NOW())
+    INSERT INTO refresh_tokens (user_id, token_hash, expires_at, created_at)
+    VALUES ($1, $2, NOW() + INTERVAL '30 days', NOW())
     `,
     [userId, hash_token],
   );
@@ -78,8 +79,11 @@ export const deleteRefreshToken = async (token) => {
 export const updateRefreshToken = async (userId, token) => {
   await db.query(
     `
-    UPDATE refresh_tokens SET token_hash=$1,expires_at=INTERVAL '30 days', created_at=NOW()
-    WHERE user_id=$2
+    UPDATE refresh_tokens
+    SET token_hash = $1,
+        expires_at = NOW() + INTERVAL '30 days',
+        created_at = NOW()
+    WHERE user_id = $2
     `,
     [token, userId],
   );
