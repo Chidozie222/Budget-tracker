@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { signinRequest, signupRequest } from "../api/useAuth.api";
+import { signinRequest, signupRequest } from "../api/auth.api";
 import { authReducer, initialAuthState } from "./user.state";
 
 const AuthContext = createContext(null);

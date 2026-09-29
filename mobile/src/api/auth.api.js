@@ -1,4 +1,4 @@
-const BASE_URL = "http://192.168.206.44:4000/api/v1";
+import { BASE_URL } from "./shareDate.api";
 
 export const signupRequest = async (name, email, password) => {
   const response = await fetch(`${BASE_URL}/auth/sign-up`, {

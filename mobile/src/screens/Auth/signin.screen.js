@@ -27,9 +27,7 @@ const SignIn = () => {
 
     try {
       const result = await signIn(email, password);
-      console.log(result);
       alert(result?.message || "Sign in successful");
-      // navigation.navigate("Home");
     } catch (err) {
       alert(err.message || "Login failed");
     }

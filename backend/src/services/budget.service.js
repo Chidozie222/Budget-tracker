@@ -24,11 +24,9 @@ const createBudget = async (user_id, name, income, end_date) => {
 
   let checkIfActiveBudget = await budgetRepository.getActiveBudget(user_id);
 
-  if (
-    checkIfActiveBudget !== null ||
-    checkIfActiveBudget !== undefined ||
-    checkIfActiveBudget?.length > 0
-  ) {
+  console.log(checkIfActiveBudget);
+
+  if (checkIfActiveBudget !== undefined) {
     return {
       statausCode: 400,
       data: {
@@ -55,6 +53,13 @@ const createBudget = async (user_id, name, income, end_date) => {
 
 const getActiveBudget = async (userId) => {
   let result = await budgetRepository.getActiveBudget(userId);
+
+  if (result === undefined) {
+    return {
+      statusCode: 200,
+      data: [],
+    };
+  }
 
   return {
     statusCode: 200,

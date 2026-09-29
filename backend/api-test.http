@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:4000/api/v1
-@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzg5NjgyOTIzLCJleHAiOjE3ODk2ODM4MjN9.kJECBiPH3VAMYvPOTagn-mAl6buVkMe2jZuV1iWnGOY
+@accessToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsInJvbGUiOiJVU0VSIiwiaWF0IjoxNzkwNzE0ODExLCJleHAiOjE3OTA3MTU3MTF9.ueyl0dFc7fUgNo5AsjOPuXjL0yYPlVcyJdS9XGPZNVg
 @budgetId = 10
 
 
@@ -44,11 +44,15 @@ Content-Type: application/json
 {
     "name": "100 week budget",
     "income": 40000,
-    "end_date": "2026-09-24"
+    "end_date": "2026-09-30"
 }
 
 ### get all budgets
 GET {{baseUrl}}/budgets
+Authorization: Bearer {{accessToken}}
+
+### get active budget
+GET {{baseUrl}}/budgets/active
 Authorization: Bearer {{accessToken}}
 
 ### get budget
