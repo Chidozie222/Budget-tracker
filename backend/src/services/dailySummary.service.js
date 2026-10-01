@@ -44,6 +44,7 @@ const dailySummaryService = async (budgetId, currentDate) => {
     data: {
       budgetId,
       data: currentDate,
+      budgetAmount: round2(budgetAmount),
       recommendedSpendingAmount: round2(recommendedExpenditure),
       spendToday: round2(totalExpenditureFromCurrentDay),
       remainBuget: round2(remainingBudgetAmount),

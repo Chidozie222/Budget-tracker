@@ -80,7 +80,30 @@ const listAllTransactionAndFilter = async (budgetId, categoryId, date) => {
   };
 };
 
+const getTransactionByBudget = async (budgetId, currentDate, take, skip) => {
+  if (budgetId === null || budgetId === undefined) {
+    return {
+      statusCode: 400,
+      data: {
+        message: "budget id is required",
+      },
+    };
+  }
+
+  const result = await transactionRepository.getTransactionByBudget(
+    budgetId,
+    currentDate,
+    take,
+    skip,
+  );
+  return {
+    statusCode: 200,
+    data: result,
+  };
+};
+
 export default transactionService = {
   createTransaction,
   listAllTransactionAndFilter,
+  getTransactionByBudget
 };

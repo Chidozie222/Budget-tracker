@@ -7,12 +7,11 @@ export const activeBudgetRequest = async (accessToken) => {
     const response = await fetch(`${BASE_URL}/budgets/active`, {
       method: "GET",
       headers: {
-        Authorization:  `Bearer ${accessToken}`
+        Authorization: `Bearer ${accessToken}`,
       },
     });
 
     const data = await response.json();
-    // console.log(response)
 
     if (!response.ok) {
       throw new Error(data?.message || "Something is wrong");

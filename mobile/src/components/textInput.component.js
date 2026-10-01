@@ -1,4 +1,5 @@
 import { View, Text, TextInput } from "react-native";
+import { COLORS } from "../styles/style";
 
 const CtextInput = ({ label, isPassword, value, setValue, placeHolder }) => {
   return (
@@ -8,17 +9,17 @@ const CtextInput = ({ label, isPassword, value, setValue, placeHolder }) => {
         marginVertical: 10,
       }}
     >
-      <Text>{label}</Text>
+      <Text style={{color: "#fff"}}>{label}</Text>
       <TextInput
         value={value}
         placeholder={placeHolder}
-        placeholderTextColor={"#5a5656"}
+        placeholderTextColor={"#a7a2a2"}
         onChangeText={(item) => setValue(item)}
         secureTextEntry={isPassword}
         style={{
           paddingHorizontal: 6,
           borderStyle: "solid",
-          borderColor: "#000",
+          borderColor: COLORS.green_dim,
           borderWidth: 1,
           borderRadius: 5,
           marginVertical: 5,

@@ -5,6 +5,7 @@ import CtextInput from "../../components/textInput.component";
 import style from "../../styles/auth.style";
 import { useNavigation } from "@react-navigation/native";
 import { validEmail, validPassword } from "../../utils/validation";
+import AppBackground from "../../components/background.component";
 import { useAuth } from "../../store/auth.context";
 
 const SignIn = () => {
@@ -34,70 +35,74 @@ const SignIn = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={style.title}>Sign In</Text>
-      <CtextInput
-        label="Email"
-        isPassword={false}
-        value={email}
-        setValue={setEmail}
-        placeHolder={"Email"}
-      />
-      <View
+    <AppBackground>
+      <KeyboardAvoidingView
         style={{
-          width: "100%",
+          flex: 1,
+          justifyContent: "center",
           alignItems: "center",
-          position: "relative",
         }}
       >
+        <Text style={style.title}>Sign In</Text>
         <CtextInput
-          label="Password"
-          isPassword={isPassword}
-          value={password}
-          setValue={setPassword}
-          placeHolder={"Password"}
+          label="Email"
+          isPassword={false}
+          value={email}
+          setValue={setEmail}
+          placeHolder={"Email"}
         />
-        <TouchableOpacity
+        <View
           style={{
-            position: "absolute",
-            right: 30,
-            bottom: 28,
-          }}
-          onPress={() => {
-            console.log(isPassword);
-            setIsPassword(!isPassword);
+            width: "100%",
+            alignItems: "center",
+            position: "relative",
           }}
         >
-          <Text style={{ color: "#000" }}>{isPassword ? "view" : "hide"}</Text>
-        </TouchableOpacity>
-      </View>
-      {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
-      <TouchableOpacity
-        style={[style.button, isLoading && { opacity: 0.6 }]}
-        onPress={HandleSignInApICall}
-        disabled={isLoading}
-      >
-        <Text style={style.buttonText}>
-          {isLoading ? "Signing In..." : "Sign In"}
-        </Text>
-      </TouchableOpacity>
-
-      <View style={style.subContainer}>
-        <Text>If you have not registered</Text>
+          <CtextInput
+            label="Password"
+            isPassword={isPassword}
+            value={password}
+            setValue={setPassword}
+            placeHolder={"Password"}
+          />
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 30,
+              bottom: 28,
+            }}
+            onPress={() => {
+              console.log(isPassword);
+              setIsPassword(!isPassword);
+            }}
+          >
+            <Text style={{ color: "#ffffff" }}>
+              {isPassword ? "view" : "hide"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
         <TouchableOpacity
-          style={style.link}
-          onPress={() => navigation.navigate("Register")}
+          style={[style.button, isLoading && { opacity: 0.6 }]}
+          onPress={HandleSignInApICall}
+          disabled={isLoading}
         >
-          <Text style={style.linkText}>Register</Text>
+          <Text style={style.buttonText}>
+            {isLoading ? "Signing In..." : "Sign In"}
+          </Text>
         </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+
+        <View style={style.subContainer}>
+          <Text style={{ color: "#ffffff" }}>If you have not registered</Text>
+          <TouchableOpacity
+            style={style.link}
+            onPress={() => navigation.navigate("Register")}
+          >
+            <Text style={style.linkText}>Register</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </AppBackground>
   );
 };
 

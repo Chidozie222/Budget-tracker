@@ -5,6 +5,7 @@ import CtextInput from "../../components/textInput.component";
 import style from "../../styles/auth.style";
 import { useNavigation } from "@react-navigation/native";
 import { validName, validEmail, validPassword } from "../../utils/validation";
+import AppBackground from "../../components/background.component";
 import { useAuth } from "../../store/auth.context";
 
 const Register = () => {
@@ -40,77 +41,81 @@ const Register = () => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text style={style.title}>Sign Up</Text>
-      <CtextInput
-        label="Name"
-        isPassword={false}
-        value={name}
-        setValue={setName}
-        placeHolder={"Name"}
-      />
-      <CtextInput
-        label="Email"
-        isPassword={false}
-        value={email}
-        setValue={setEmail}
-        placeHolder={"Email"}
-      />
-      <View
+    <AppBackground>
+      <KeyboardAvoidingView
         style={{
-          width: "100%",
+          flex: 1,
+          justifyContent: "center",
           alignItems: "center",
-          position: "relative",
         }}
       >
+        <Text style={style.title}>Sign Up</Text>
         <CtextInput
-          label="Password"
-          isPassword={isPassword}
-          value={password}
-          setValue={setPassword}
-          placeHolder={"Password"}
+          label="Name"
+          isPassword={false}
+          value={name}
+          setValue={setName}
+          placeHolder={"Name"}
         />
-        <TouchableOpacity
+        <CtextInput
+          label="Email"
+          isPassword={false}
+          value={email}
+          setValue={setEmail}
+          placeHolder={"Email"}
+        />
+        <View
           style={{
-            position: "absolute",
-            right: 30,
-            bottom: 28,
-          }}
-          onPress={() => {
-            console.log(isPassword);
-            setIsPassword(!isPassword);
+            width: "100%",
+            alignItems: "center",
+            position: "relative",
           }}
         >
-          <Text style={{ color: "#000" }}>{isPassword ? "view" : "hide"}</Text>
-        </TouchableOpacity>
-      </View>
-      {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
-      <TouchableOpacity
-        style={[style.button, isLoading && { opacity: 0.6 }]}
-        onPress={HandleSignUpApICall}
-        disabled={isLoading}
-      >
-        <Text style={style.buttonText}>
-          {isLoading ? "Registering..." : "Register"}
-        </Text>
-      </TouchableOpacity>
-
-      <View style={style.subContainer}>
-        <Text>If you have registered</Text>
+          <CtextInput
+            label="Password"
+            isPassword={isPassword}
+            value={password}
+            setValue={setPassword}
+            placeHolder={"Password"}
+          />
+          <TouchableOpacity
+            style={{
+              position: "absolute",
+              right: 30,
+              bottom: 28,
+            }}
+            onPress={() => {
+              console.log(isPassword);
+              setIsPassword(!isPassword);
+            }}
+          >
+            <Text style={{ color: "#ffffff" }}>
+              {isPassword ? "view" : "hide"}
+            </Text>
+          </TouchableOpacity>
+        </View>
+        {/* {error ? <Text style={{ color: "red" }}>{error}</Text> : null} */}
         <TouchableOpacity
-          style={style.link}
-          onPress={() => navigation.navigate("SignIn")}
+          style={[style.button, isLoading && { opacity: 0.6 }]}
+          onPress={HandleSignUpApICall}
+          disabled={isLoading}
         >
-          <Text style={style.linkText}>sign in</Text>
+          <Text style={style.buttonText}>
+            {isLoading ? "Registering..." : "Register"}
+          </Text>
         </TouchableOpacity>
-      </View>
-    </KeyboardAvoidingView>
+
+        <View style={style.subContainer}>
+          <Text style={{ color: "#ffffff" }}>If you have registered</Text>
+          <TouchableOpacity
+            style={style.link}
+            onPress={() => navigation.navigate("SignIn")}
+          >
+            <Text style={style.linkText}>sign in</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    </AppBackground>
   );
 };
 

@@ -1,16 +1,18 @@
 import { StyleSheet } from "react-native";
+import { COLORS } from "./style";
 
 const style = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "800",
     marginVertical: 30,
+    color: "#fff"
   },
   button: {
     marginTop: 25,
     paddingVertical: 10,
     width: "90%",
-    backgroundColor: "#1d741d",
+    backgroundColor: "green",
   },
   buttonText: {
     textAlign: "center",

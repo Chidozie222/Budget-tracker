@@ -17,4 +17,10 @@ transaction.get(
   asyncHandler(transactionController.listAllTransactionAndFilter),
 );
 
+transaction.get(
+  "/trans/:budgetId",
+  authorize,
+  asyncHandler(transactionController.getTransactionByBudget),
+);
+
 export default transaction;
