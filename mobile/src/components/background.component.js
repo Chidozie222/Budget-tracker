@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: COLORS.bg_app,
+    // backgroundColor: "white",
     borderRadius: "28px",
     overflow: "hidden",
     position: "relative",

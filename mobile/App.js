@@ -1,8 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { AuthProvider } from "./src/store/auth.context";
 import AuthNavigation from "./src/navigation/auth.nav";
-import Home from "./src/screens/home.screen";
 import { useAuth } from "./src/store/auth.context";
+import MainStack from "./src/navigation/mainStack.nav";
 
 export default function App() {
   return (
@@ -18,7 +18,7 @@ const MainNavigation = () => {
   const { isLogin } = useAuth();
 
   if (isLogin) {
-    return <Home />;
+    return <MainStack />;
   } else {
     return <AuthNavigation />;
   }

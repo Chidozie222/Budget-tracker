@@ -12,7 +12,7 @@ const style = StyleSheet.create({
     marginTop: 25,
     paddingVertical: 10,
     width: "90%",
-    backgroundColor: "green",
+    backgroundColor: COLORS.blue,
   },
   buttonText: {
     textAlign: "center",

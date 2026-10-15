@@ -23,7 +23,7 @@ const CtextInput = ({ label, isPassword, value, setValue, placeHolder }) => {
           borderWidth: 1,
           borderRadius: 5,
           marginVertical: 5,
-          color: "#000"
+          color: "#fff"
         }}
       />
     </View>

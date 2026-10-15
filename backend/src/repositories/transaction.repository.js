@@ -53,8 +53,9 @@ const getTotalExpensesFromCurrentDay = async (budgetId, currentDate) => {
 };
 
 const getTransactionByBudget = async (budgetId, currentDate, take, skip) => {
-  let query = `SELECT * FROM transactions
-  WHERE budget_id=$1 AND date=$2
+  let query = `SELECT transactions.*, categories.name FROM transactions
+  INNER JOIN categories ON transactions.category_id = categories.id
+  WHERE transactions.budget_id=$1 AND date=$2
   ORDER BY id DESC `;
   const params = [budgetId, currentDate];
 
@@ -67,7 +68,6 @@ const getTransactionByBudget = async (budgetId, currentDate, take, skip) => {
     params.push(skip);
     query += `OFFSET $${params.length} `;
   }
-
   const result = await db.query(query, params);
   return result.rows;
 };
@@ -77,5 +77,5 @@ export default transactionRepository = {
   listAllTransactionAndFilter,
   getTotalExpensesFromPerviousDay,
   getTotalExpensesFromCurrentDay,
-  getTransactionByBudget
+  getTransactionByBudget,
 };
