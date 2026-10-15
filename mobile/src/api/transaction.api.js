@@ -5,19 +5,27 @@ export const getTransactionByBudgetRequest = async (
   date = null,
   take = null,
   skip = null,
-  accessToken
+  accessToken,
 ) => {
   try {
     if (date === null) {
       throw new Error("Date must be provided");
     }
 
-    let url =
-      take === null && skip === null
-        ? `${BASE_URL}/transactions/trans/${budgetId}`
-        : `${BASE_URL}/transactions/trans/${budgetId}?take=${take}&skip=${skip}`;
+    const params = new URLSearchParams();
+    params.append("date", date);
 
-    let response = await fetch(url, {
+    if (take !== null && take !== undefined) {
+      params.append("take", String(take));
+    }
+
+    if (skip !== null && skip !== undefined) {
+      params.append("skip", String(skip));
+    }
+
+    const url = `${BASE_URL}/transactions/trans/${budgetId}?${params.toString()}`;
+
+    const response = await fetch(url, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -30,7 +38,7 @@ export const getTransactionByBudgetRequest = async (
       throw new Error(data?.message || "Something is wrong");
     }
 
-    return data;
+    return Array.isArray(data) ? data : (data?.data ?? []);
   } catch (error) {
     console.log("GetTransactionByBudgetRequest:", error);
     throw error;
