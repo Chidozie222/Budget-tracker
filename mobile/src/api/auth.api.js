@@ -43,4 +43,47 @@ export const signinRequest = async (email, password) => {
   return data;
 };
 
-export default { signupRequest, signinRequest };
+export const refreshTokenRequest = async (refreshToken) => {
+  const response = await fetch(`${BASE_URL}/auth/refresh-token`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ refreshToken }),
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.message || "Refresh failed");
+  }
+
+  return data;
+};
+
+export const logoutRequest = async (refreshToken) => {
+  const response = await fetch(
+    `${BASE_URL}/auth/logout/${encodeURIComponent(refreshToken)}`,
+    {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    },
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data?.message || "Logout failed");
+  }
+
+  return data;
+};
+
+export default {
+  signupRequest,
+  signinRequest,
+  refreshTokenRequest,
+  logoutRequest,
+};

@@ -11,7 +11,9 @@ const createCategory = async (req, res) => {
 };
 
 const listAllCategory = async (req, res) => {
-  let result = await categoryService.listAllCategory(req.params?.budgetId);
+  const budgetId = req.params?.budgetId ?? req.query?.budgetId ?? null;
+
+  let result = await categoryService.listAllCategory(budgetId);
 
   res.status(result.statusCode).json(result.data);
 };

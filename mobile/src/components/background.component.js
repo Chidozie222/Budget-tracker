@@ -11,14 +11,12 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: COLORS.bg_app,
-    // backgroundColor: "white",
-    borderRadius: "28px",
+    // borderRadius: 28,
     overflow: "hidden",
     position: "relative",
-    display: "flex",
     flexDirection: "column",
     paddingHorizontal: 15,
-    paddingVertical: 10
+    paddingVertical: 10,
   },
 });
 

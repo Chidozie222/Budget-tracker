@@ -40,7 +40,7 @@ const listAllCategory = async (budgetId) => {
   const result = await categoryRepository.listAllCategory(budgetId);
 
   return {
-    statusCode: 201,
+    statusCode: 200,
     data: result,
   };
 };

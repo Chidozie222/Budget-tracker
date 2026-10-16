@@ -14,6 +14,14 @@ export const authReducer = (state, action) => {
         user: action.payload.data,
         error: null,
       };
+    case "UPDATE_USER":
+      return {
+        ...state,
+        user: {
+          ...(state.user || {}),
+          ...(action.payload || {}),
+        },
+      };
     case "SIGN_OUT":
       return {
         ...initialAuthState,

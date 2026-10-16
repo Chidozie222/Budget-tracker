@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import {
+  Alert,
   StyleSheet,
   Text,
   TextInput,
@@ -6,6 +8,9 @@ import {
   View,
 } from "react-native";
 import AppBackground from "../components/background.component";
+import { createCategoryRequest, getCategoriesRequest } from "../api/category.api";
+import { activeBudgetRequest } from "../api/budget.api";
+import { useAuth } from "../store/auth.context";
 import { COLORS } from "../styles/style";
 
 const colors = [
@@ -18,6 +23,62 @@ const colors = [
 ];
 
 const AddCategoryScreen = ({ navigation }) => {
+  const { user } = useAuth();
+  const [name, setName] = useState("");
+  const [selectedColor, setSelectedColor] = useState("green");
+  const [activeBudget, setActiveBudget] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const loadBudget = async () => {
+      if (!user?.accessToken) return;
+
+      try {
+        const budget = await activeBudgetRequest(user.accessToken);
+        const active = Array.isArray(budget) ? budget[0] : budget;
+        setActiveBudget(active || null);
+
+        if (active?.id) {
+          const fetched = await getCategoriesRequest(user.accessToken, active.id);
+          setCategories(Array.isArray(fetched) ? fetched : []);
+        }
+      } catch (error) {
+        console.error("AddCategory loadBudget error:", error);
+      }
+    };
+
+    loadBudget();
+  }, [user?.accessToken]);
+
+  const handleSave = async () => {
+    if (!user?.accessToken) {
+      Alert.alert("Session expired", "Please sign in again.");
+      return;
+    }
+
+    if (!activeBudget?.id) {
+      Alert.alert("No active budget", "Create or select a budget before adding a category.");
+      return;
+    }
+
+    if (!name.trim()) {
+      Alert.alert("Category name required", "Please enter a category name.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await createCategoryRequest(activeBudget.id, name, user.accessToken);
+      Alert.alert("Success", "Category created successfully.");
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Failed", error.message || "Unable to create category.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <AppBackground>
       <View style={styles.container}>
@@ -34,37 +95,54 @@ const AddCategoryScreen = ({ navigation }) => {
 
         <Text style={styles.label}>Category name</Text>
         <TextInput
-          value="Electricity"
+          value={name}
+          onChangeText={setName}
           style={styles.field}
+          placeholder="Electricity"
           placeholderTextColor={COLORS.text_secondary}
         />
 
         <Text style={styles.label}>Color</Text>
         <View style={styles.colorGrid}>
           {colors.map((item) => (
-            <View
+            <TouchableOpacity
               key={item.name}
+              activeOpacity={0.9}
+              onPress={() => setSelectedColor(item.name)}
               style={[
                 styles.colorDot,
                 { backgroundColor: `${item.value}22` },
-                item.name === "green" && styles.colorDotSelected,
+                selectedColor === item.name && styles.colorDotSelected,
               ]}
             >
-              {item.name === "green" ? (
+              {selectedColor === item.name ? (
                 <Text style={styles.checkmark}>✓</Text>
               ) : null}
-            </View>
+            </TouchableOpacity>
           ))}
         </View>
 
         <Text style={styles.label}>Budget</Text>
         <View style={styles.fieldMuted}>
-          <Text style={styles.fieldMutedText}>100 week budget</Text>
+          <Text style={styles.fieldMutedText}>
+            {activeBudget?.name || "No active budget"}
+          </Text>
           <Text style={styles.chevron}>⌄</Text>
         </View>
 
-        <TouchableOpacity activeOpacity={0.9} style={styles.primaryButton}>
-          <Text style={styles.primaryButtonText}>Save category</Text>
+        <Text style={styles.helperText}>
+          {categories.length} category(s) already in this budget
+        </Text>
+
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={[styles.primaryButton, loading && styles.primaryButtonDisabled]}
+          onPress={handleSave}
+          disabled={loading}
+        >
+          <Text style={styles.primaryButtonText}>
+            {loading ? "Saving..." : "Save category"}
+          </Text>
         </TouchableOpacity>
       </View>
     </AppBackground>
@@ -151,6 +229,11 @@ const styles = StyleSheet.create({
     color: COLORS.text_secondary,
     fontSize: 18,
   },
+  helperText: {
+    color: COLORS.text_secondary,
+    fontSize: 12,
+    marginTop: 8,
+  },
   primaryButton: {
     marginTop: 24,
     backgroundColor: COLORS.green,
@@ -158,6 +241,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: "center",
     justifyContent: "center",
+  },
+  primaryButtonDisabled: {
+    opacity: 0.7,
   },
   primaryButtonText: {
     color: COLORS.bg_app,

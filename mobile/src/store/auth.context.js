@@ -1,5 +1,10 @@
 import React, { createContext, useContext, useReducer } from "react";
-import { signinRequest, signupRequest } from "../api/auth.api";
+import {
+  logoutRequest,
+  refreshTokenRequest,
+  signinRequest,
+  signupRequest,
+} from "../api/auth.api";
 import { authReducer, initialAuthState } from "./user.state";
 
 const AuthContext = createContext(null);
@@ -37,8 +42,37 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signOut = () => {
-    dispatch({ type: "SIGN_OUT" });
+  const refreshAccessToken = async () => {
+    if (!state.user?.refreshToken) {
+      return null;
+    }
+
+    try {
+      const data = await refreshTokenRequest(state.user.refreshToken);
+      const nextAccessToken = data?.data ?? data;
+
+      dispatch({
+        type: "UPDATE_USER",
+        payload: { accessToken: nextAccessToken },
+      });
+
+      return nextAccessToken;
+    } catch (error) {
+      dispatch({ type: "SET_ERROR", payload: error.message });
+      throw error;
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      if (state.user?.refreshToken) {
+        await logoutRequest(state.user.refreshToken);
+      }
+    } catch (error) {
+      console.warn("Logout request failed:", error.message);
+    } finally {
+      dispatch({ type: "SIGN_OUT" });
+    }
   };
 
   const value = {
@@ -46,6 +80,7 @@ export const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     signOut,
+    refreshAccessToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

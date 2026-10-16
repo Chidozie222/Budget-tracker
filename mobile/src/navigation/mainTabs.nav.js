@@ -4,6 +4,7 @@ import Home from "../screens/home.screen";
 import Transaction from "../screens/transaction.screen";
 import ProfileScreen from "../screens/profile.screen";
 import AddTransactionScreen from "../screens/addTransaction.screen";
+import AddBudgetScreen from "../screens/addBudget.screen";
 import AddCategoryScreen from "../screens/addCategory.screen";
 import { BudgetDetailScreen, BudgetListScreen } from "../screens/budget.screen";
 
@@ -15,6 +16,7 @@ const BudgetNavigator = () => (
   <BudgetStack.Navigator screenOptions={{ headerShown: false }}>
     <BudgetStack.Screen name="BudgetList" component={BudgetListScreen} />
     <BudgetStack.Screen name="BudgetDetail" component={BudgetDetailScreen} />
+    <BudgetStack.Screen name="AddBudget" component={AddBudgetScreen} />
     <BudgetStack.Screen name="AddCategory" component={AddCategoryScreen} />
   </BudgetStack.Navigator>
 );

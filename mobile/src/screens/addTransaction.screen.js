@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -8,20 +9,95 @@ import {
   View,
 } from "react-native";
 import AppBackground from "../components/background.component";
+import { createTransactionRequest } from "../api/transactionCreate.api";
+import { getCategoriesRequest } from "../api/category.api";
+import { activeBudgetRequest } from "../api/budget.api";
+import { useAuth } from "../store/auth.context";
 import { COLORS } from "../styles/style";
 
-const categoryOptions = [
-  { label: "Food", active: true },
-  { label: "Transport" },
-  { label: "Data" },
-  { label: "Utilities" },
-  { label: "Health" },
-  { label: "Other" },
-];
-
 const AddTransactionScreen = ({ navigation }) => {
-  const [amount, setAmount] = useState("3,000");
-  const [description, setDescription] = useState("1 book");
+  const { user } = useAuth();
+  const [amount, setAmount] = useState("");
+  const [description, setDescription] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+  const [activeBudget, setActiveBudget] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (!user?.accessToken) return;
+
+      try {
+        const budget = await activeBudgetRequest(user.accessToken);
+        const active = Array.isArray(budget) ? budget[0] : budget;
+        setActiveBudget(active || null);
+
+        const fetchedCategories = await getCategoriesRequest(
+          user.accessToken,
+          active?.id ?? null,
+        );
+
+        const safeCategories = Array.isArray(fetchedCategories)
+          ? fetchedCategories
+          : [];
+        setCategories(safeCategories);
+
+        if (safeCategories.length && !safeCategories.some((item) => item.id === selectedCategoryId)) {
+          setSelectedCategoryId(safeCategories[0].id);
+        }
+      } catch (error) {
+        console.error("AddTransaction loadData error:", error);
+        setCategories([]);
+      }
+    };
+
+    loadData();
+  }, [user?.accessToken]);
+
+  const handleSave = async () => {
+    if (!user?.accessToken) {
+      Alert.alert("Session expired", "Please sign in again.");
+      return;
+    }
+
+    if (!activeBudget?.id) {
+      Alert.alert("No active budget", "Create or select a budget first.");
+      return;
+    }
+
+    if (!selectedCategoryId) {
+      Alert.alert("Choose a category", "Select a category before saving.");
+      return;
+    }
+
+    const numericAmount = Number(String(amount).replace(/[^\d.]/g, ""));
+
+    if (!numericAmount || numericAmount <= 0) {
+      Alert.alert("Invalid amount", "Enter an amount greater than zero.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      await createTransactionRequest({
+        budgetId: activeBudget.id,
+        categoryId: selectedCategoryId,
+        amount: numericAmount,
+        description,
+        accessToken: user.accessToken,
+      });
+
+      Alert.alert("Success", "Transaction saved successfully.");
+      navigation.goBack();
+    } catch (error) {
+      Alert.alert("Save failed", error.message || "Unable to save transaction.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log(categories)
 
   return (
     <AppBackground>
@@ -44,24 +120,31 @@ const AddTransactionScreen = ({ navigation }) => {
             onChangeText={setAmount}
             keyboardType="numeric"
             style={styles.amountInput}
+            placeholder="0"
             placeholderTextColor={COLORS.text_secondary}
           />
         </View>
 
         <Text style={styles.label}>Category</Text>
         <View style={styles.chipRow}>
-          {categoryOptions.map((item) => (
-            <View
-              key={item.label}
-              style={[styles.chip, item.active && styles.chipActive]}
-            >
-              <Text
-                style={[styles.chipText, item.active && styles.chipTextActive]}
+          {categories.length ? (
+            categories.map((item) => (
+              <TouchableOpacity
+                key={item.id}
+                activeOpacity={0.9}
+                onPress={() => setSelectedCategoryId(item.id)}
+                style={[styles.chip, selectedCategoryId === item.id && styles.chipActive]}
               >
-                {item.label}
-              </Text>
-            </View>
-          ))}
+                <Text
+                  style={[styles.chipText, selectedCategoryId === item.id && styles.chipTextActive]}
+                >
+                  {item.name}
+                </Text>
+              </TouchableOpacity>
+            ))
+          ) : (
+            <Text style={styles.emptyText}>No categories available</Text>
+          )}
         </View>
 
         <Text style={styles.label}>Description (optional)</Text>
@@ -69,17 +152,25 @@ const AddTransactionScreen = ({ navigation }) => {
           value={description}
           onChangeText={setDescription}
           style={styles.field}
+          placeholder="1 book"
           placeholderTextColor={COLORS.text_secondary}
         />
 
         <Text style={styles.label}>Date</Text>
         <View style={styles.fieldMuted}>
-          <Text style={styles.fieldMutedText}>Today · 24 Sep 2026</Text>
+          <Text style={styles.fieldMutedText}>Today</Text>
           <Text style={styles.calendarText}>📅</Text>
         </View>
 
-        <TouchableOpacity activeOpacity={0.9} style={styles.primaryButton}>
-          <Text style={styles.primaryButtonText}>Save transaction</Text>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={[styles.primaryButton, loading && styles.primaryButtonDisabled]}
+          onPress={handleSave}
+          disabled={loading}
+        >
+          <Text style={styles.primaryButtonText}>
+            {loading ? "Saving..." : "Save transaction"}
+          </Text>
         </TouchableOpacity>
       </ScrollView>
     </AppBackground>
@@ -119,6 +210,7 @@ const styles = StyleSheet.create({
     color: COLORS.text_primary,
     fontSize: 42,
     fontWeight: "700",
+    paddingVertical: 0,
   },
   label: {
     color: COLORS.text_primary,
@@ -126,6 +218,11 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     marginBottom: 12,
     marginTop: 12,
+  },
+  emptyText: {
+    color: COLORS.text_secondary,
+    fontSize: 14,
+    marginBottom: 10,
   },
   chipRow: {
     flexDirection: "row",
@@ -188,6 +285,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     alignItems: "center",
     justifyContent: "center",
+  },
+  primaryButtonDisabled: {
+    opacity: 0.7,
   },
   primaryButtonText: {
     color: COLORS.bg_app,

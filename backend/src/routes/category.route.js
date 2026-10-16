@@ -7,10 +7,7 @@ const category = Router();
 
 category.post("/", authorize, asyncHandler(categoryController.createCategory));
 
-category.get(
-  "/{:budgetId}",
-  authorize,
-  asyncHandler(categoryController.listAllCategory),
-);
+category.get("/", authorize, asyncHandler(categoryController.listAllCategory));
+category.get("/:budgetId", authorize, asyncHandler(categoryController.listAllCategory));
 
 export default category;

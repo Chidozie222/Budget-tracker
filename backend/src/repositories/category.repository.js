@@ -16,12 +16,26 @@ const createCategory = async (budgetId, name) => {
 };
 
 const listAllCategory = async (budgetId) => {
-  const result = await db.query(
-    `
-    SELECT * FROM categories WHERE owner_type=$1 OR budget_id=$2
-    `,
-    ["ADMIN", budgetId],
-  );
+  let result;
+
+  if (!budgetId) {
+    result = await db.query(
+      `
+      SELECT * FROM categories
+      WHERE owner_type = 'ADMIN'
+      ORDER BY name ASC
+      `,
+    );
+  } else {
+    result = await db.query(
+      `
+      SELECT * FROM categories
+      WHERE owner_type = 'ADMIN' OR budget_id = $1
+      ORDER BY CASE WHEN owner_type = 'ADMIN' THEN 0 ELSE 1 END, name ASC
+      `,
+      [budgetId],
+    );
+  }
 
   return result.rows;
 };
@@ -34,7 +48,11 @@ const getCategoryById = async (categoryId) => {
     [categoryId],
   );
 
-  return result.rows;
+  return result.rows[0];
 };
 
-export default categoryRepository = { createCategory, listAllCategory, getCategoryById };
+export default categoryRepository = {
+  createCategory,
+  listAllCategory,
+  getCategoryById,
+};

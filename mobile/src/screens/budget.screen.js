@@ -120,7 +120,7 @@ const BudgetListScreen = ({ navigation }) => {
           <TouchableOpacity
             activeOpacity={0.8}
             style={styles.iconButton}
-            onPress={() => navigation.navigate("AddCategory")}
+            onPress={() => navigation.navigate("AddBudget")}
           >
             <Text style={styles.iconText}>+</Text>
           </TouchableOpacity>
