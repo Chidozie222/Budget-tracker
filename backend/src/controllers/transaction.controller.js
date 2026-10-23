@@ -1,5 +1,24 @@
 import transactionService from "../services/transaction.service.js";
 
+const normalizeDateParam = (value) => {
+  if (!value) return null;
+
+  const raw = String(value).trim();
+  if (!raw) return null;
+
+  const sliced = raw.slice(0, 10);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(sliced)) {
+    return sliced;
+  }
+
+  const parsed = new Date(raw);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+
+  return parsed.toISOString().slice(0, 10);
+};
+
 let transactionController;
 
 const createTransaction = async (req, res) => {
@@ -19,7 +38,7 @@ const listAllTransactionAndFilter = async (req, res) => {
   const { budgetId } = req.params;
 
   const categoryId = req.query?.categoryId ?? null;
-  const date = req.query.date ? new Date(req.query.date) : null;
+  const date = normalizeDateParam(req.query.date);
 
   const result = await transactionService.listAllTransactionAndFilter(
     budgetId,
@@ -33,7 +52,7 @@ const listAllTransactionAndFilter = async (req, res) => {
 const getTransactionByBudget = async (req, res) => {
   const { budgetId } = req.params;
 
-  const date = req.query.date ? new Date(req.query.date) : null;
+  const date = normalizeDateParam(req.query.date);
   const take = req.query?.take;
   const skip = req.query?.skip;
 

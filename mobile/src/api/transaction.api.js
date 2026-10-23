@@ -93,12 +93,11 @@ export const getTransactionByBudgetRequest = async (
   accessToken,
 ) => {
   try {
-    if (date === null) {
-      throw new Error("Date must be provided");
-    }
-
     const params = new URLSearchParams();
-    params.append("date", date);
+    if (date !== null) {
+      const normalizedDate = String(date).slice(0, 10);
+      params.append("date", normalizedDate);
+    }
 
     if (take !== null && take !== undefined) {
       params.append("take", String(take));

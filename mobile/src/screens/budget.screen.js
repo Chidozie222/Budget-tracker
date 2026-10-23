@@ -215,9 +215,9 @@ const BudgetDetailScreen = ({ navigation, route }) => {
         const date = new Date().toISOString().slice(0, 10);
         const response = await getTransactionByBudgetRequest(
           budget.id,
-          date,
-          5,
-          0,
+          null,
+          null,
+          null,
           user.accessToken,
         );
         setTransactions(Array.isArray(response) ? response : []);

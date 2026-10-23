@@ -24,8 +24,6 @@ const createBudget = async (user_id, name, income, end_date) => {
 
   let checkIfActiveBudget = await budgetRepository.getActiveBudget(user_id);
 
-  console.log(checkIfActiveBudget);
-
   if (checkIfActiveBudget !== undefined) {
     return {
       statausCode: 400,
