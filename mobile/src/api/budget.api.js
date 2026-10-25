@@ -45,7 +45,7 @@ export const createBudgetRequest = async (
       throw new Error("Name, income, and end date are required");
     }
 
-    const { data } = await fetchWithAuth(`${BASE_URL}/budgets`, {
+    const { data, response } = await fetchWithAuth(`${BASE_URL}/budgets`, {
       method: "POST",
       accessToken,
       headers: {
@@ -58,7 +58,11 @@ export const createBudgetRequest = async (
       }),
     });
 
-    return data;
+    return {
+      ...(data ?? {}),
+      status: response?.status ?? 200,
+      created: response?.status === 201,
+    };
   } catch (error) {
     console.error("createBudgetRequest error:", error);
     throw error;

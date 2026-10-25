@@ -11,6 +11,7 @@ import {
 import AppBackground from "../components/background.component";
 import { createBudgetRequest } from "../api/budget.api";
 import { useAuth } from "../store/auth.context";
+import { useAppStore } from "../store/app.store";
 import { COLORS } from "../styles/style";
 
 const getDefaultEndDate = () => {
@@ -21,6 +22,7 @@ const getDefaultEndDate = () => {
 
 const AddBudgetScreen = ({ navigation }) => {
   const { user } = useAuth();
+  const { loadBudgets } = useAppStore();
   const [name, setName] = useState("");
   const [income, setIncome] = useState("");
   const [endDate, setEndDate] = useState(getDefaultEndDate());
@@ -45,13 +47,16 @@ const AddBudgetScreen = ({ navigation }) => {
     }
 
     if (!endDate || Number.isNaN(new Date(endDate).getTime())) {
-      Alert.alert("Invalid date", "Enter a valid end date in YYYY-MM-DD format.");
+      Alert.alert(
+        "Invalid date",
+        "Enter a valid end date in YYYY-MM-DD format.",
+      );
       return;
     }
 
     try {
       setLoading(true);
-      await createBudgetRequest(
+      const created = await createBudgetRequest(
         {
           name: name.trim(),
           income: cleanIncome,
@@ -59,6 +64,10 @@ const AddBudgetScreen = ({ navigation }) => {
         },
         user.accessToken,
       );
+
+      if (created?.status === 201 || created?.created) {
+        await loadBudgets(user.accessToken);
+      }
 
       Alert.alert("Success", "Budget created successfully.");
       navigation.goBack();
@@ -113,7 +122,10 @@ const AddBudgetScreen = ({ navigation }) => {
 
         <TouchableOpacity
           activeOpacity={0.9}
-          style={[styles.primaryButton, loading && styles.primaryButtonDisabled]}
+          style={[
+            styles.primaryButton,
+            loading && styles.primaryButtonDisabled,
+          ]}
           onPress={handleSave}
           disabled={loading}
         >
