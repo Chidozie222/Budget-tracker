@@ -1,14 +1,13 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { activeBudgetRequest } from "../api/budget.api";
-import { dailySummaryRequest } from "../api/dailysummary.api";
-import { getTransactionByBudgetRequest } from "../api/transaction.api";
 import AppBackground from "../components/background.component";
 import { useAuth } from "../store/auth.context";
+import { useAppStore } from "../store/app.store";
 import { COLORS } from "../styles/style";
 import ListTransactions from "../components/listTransaction.component";
 import { createSavingRequest } from "../api/saving.api";
+import { connectBudgetSocket } from "../api/socket.api";
 
 const UNDERSPEND_DISMISS_KEY = "budget_tracker_underspend_dismissed_date";
 
@@ -49,9 +48,8 @@ const formatMoney = (value) => {
 };
 
 export default function Home() {
-  const [activeBudget, setActiveBudget] = useState(null);
-  const [dailySummary, setDailySummary] = useState(null);
-  const [transaction, setTransaction] = useState([]);
+  const { activeBudget, dailySummary, transactions, loadActiveBudgetSnapshot } =
+    useAppStore();
   const [showUnderSpend, setShowUnderSpend] = useState(false);
   const { user } = useAuth();
 
@@ -60,47 +58,30 @@ export default function Home() {
       if (!user?.accessToken) return;
 
       try {
-        const date = new Date().toISOString().slice(0, 10);
-        const take = 10;
-        const skip = 0;
-        const _activeBudget = await activeBudgetRequest(user.accessToken);
-        const active = Array.isArray(_activeBudget)
-          ? _activeBudget[0]
-          : _activeBudget;
-
-        setActiveBudget(active || null);
-
-        if (!active || !active.id) {
-          setDailySummary(null);
-          setTransaction([]);
-          return;
-        }
-
-        const _dailySummary = await dailySummaryRequest(
-          active.id,
-          date,
-          user.accessToken,
-        );
-        const _transaction = await getTransactionByBudgetRequest(
-          active.id,
-          date,
-          take,
-          skip,
-          user.accessToken,
-        );
-
-        setDailySummary(_dailySummary);
-        setTransaction(Array.isArray(_transaction) ? _transaction : []);
+        await loadActiveBudgetSnapshot(user.accessToken);
       } catch (error) {
         console.error("Home loadBudget error:", error);
-        setActiveBudget(null);
-        setDailySummary(null);
-        setTransaction([]);
       }
     };
 
     loadBudget();
   }, [user?.accessToken]);
+
+  useEffect(() => {
+    if (!activeBudget?.id || !user?.accessToken) return undefined;
+
+    const socket = connectBudgetSocket(activeBudget.id, async () => {
+      try {
+        await loadActiveBudgetSnapshot(user.accessToken);
+      } catch (error) {
+        console.error("Socket refresh error:", error);
+      }
+    });
+
+    return () => {
+      socket?.disconnect();
+    };
+  }, [activeBudget?.id, user?.accessToken]);
 
   useEffect(() => {
     const checkDismissal = async () => {
@@ -220,7 +201,7 @@ export default function Home() {
             </TouchableOpacity>
           </View>
 
-          <ListTransactions transaction={transaction} />
+          <ListTransactions transaction={transactions} />
 
           {shouldShowUnderSpend && (
             <View style={styles.modalOverlay}>

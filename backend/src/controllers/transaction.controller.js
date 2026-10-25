@@ -31,6 +31,20 @@ const createTransaction = async (req, res) => {
     description,
   );
 
+  if (result.statusCode === 201 && result.data) {
+    const createdTransaction = Array.isArray(result.data)
+      ? result.data[0]
+      : result.data;
+
+    if (createdTransaction) {
+      const io = req.app.locals.io;
+      io.to(`budget:${budgetId}`).emit("transaction:created", {
+        budgetId,
+        transaction: createdTransaction,
+      });
+    }
+  }
+
   res.status(result.statusCode).json(result.data);
 };
 

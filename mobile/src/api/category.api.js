@@ -1,4 +1,4 @@
-import { BASE_URL } from "./shareDate.api";
+import { BASE_URL, fetchWithAuth } from "./shareDate.api";
 
 const normalizeCategoryList = (data) => {
   if (Array.isArray(data)) return data;
@@ -21,18 +21,10 @@ export const getCategoriesRequest = async (accessToken, budgetId = null) => {
     const seen = new Set();
 
     for (const url of urls) {
-      const response = await fetch(url, {
+      const { data } = await fetchWithAuth(url, {
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        accessToken,
       });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        continue;
-      }
 
       const list = normalizeCategoryList(data);
 
@@ -62,23 +54,17 @@ export const createCategoryRequest = async (budgetId, name, accessToken) => {
       throw new Error("Budget and category name are required");
     }
 
-    const response = await fetch(`${BASE_URL}/categories`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/categories`, {
       method: "POST",
+      accessToken,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         budgetId,
         name: trimmedName,
       }),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Failed to create category");
-    }
 
     return data;
   } catch (error) {

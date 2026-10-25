@@ -1,20 +1,11 @@
-import { BASE_URL } from "./shareDate.api";
+import { BASE_URL, fetchWithAuth } from "./shareDate.api";
 
 export const getBudgetsRequest = async (accessToken) => {
   try {
-    const response = await fetch(`${BASE_URL}/budgets`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/budgets`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.log(data)
-      throw new Error(data?.message || "Something is wrong");
-    }
 
     return Array.isArray(data) ? data : (data?.data ?? data ?? []);
   } catch (error) {
@@ -25,18 +16,10 @@ export const getBudgetsRequest = async (accessToken) => {
 
 export const getBudgetByIdRequest = async (budgetId, accessToken) => {
   try {
-    const response = await fetch(`${BASE_URL}/budgets/${budgetId}`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/budgets/${budgetId}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Something is wrong");
-    }
 
     return data?.data ?? data ?? null;
   } catch (error) {
@@ -62,11 +45,11 @@ export const createBudgetRequest = async (
       throw new Error("Name, income, and end date are required");
     }
 
-    const response = await fetch(`${BASE_URL}/budgets`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/budgets`, {
       method: "POST",
+      accessToken,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         name: cleanName,
@@ -74,12 +57,6 @@ export const createBudgetRequest = async (
         end_date,
       }),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Budget creation failed");
-    }
 
     return data;
   } catch (error) {
@@ -92,18 +69,10 @@ export const createBudgetRequest = async (
 // from the auth context consumer at callsite.
 export const activeBudgetRequest = async (accessToken) => {
   try {
-    const response = await fetch(`${BASE_URL}/budgets/active`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/budgets/active`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Something is wrong");
-    }
 
     return Array.isArray(data) ? data : (data?.data ?? data ?? []);
   } catch (error) {

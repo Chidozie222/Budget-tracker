@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { activeBudgetRequest } from "../api/budget.api";
-import { getTransactionByBudgetRequest } from "../api/transaction.api";
 import AppBackground from "../components/background.component";
 import ListTransactions from "../components/listTransaction.component";
 import { useAuth } from "../store/auth.context";
+import { useAppStore } from "../store/app.store";
 import { COLORS } from "../styles/style";
+import { connectBudgetSocket } from "../api/socket.api";
 
 export default function Transaction({ navigation }) {
-  const [transaction, setTransaction] = useState([]);
-  const [activeBudget, setActiveBudget] = useState(null);
+  const { activeBudget, transactions, loadActiveBudgetSnapshot } =
+    useAppStore();
   const { user } = useAuth();
 
   useEffect(() => {
@@ -17,36 +17,30 @@ export default function Transaction({ navigation }) {
       if (!user?.accessToken) return;
 
       try {
-        const date = new Date().toISOString().slice(0, 10);
-        const _activeBudget = await activeBudgetRequest(user.accessToken);
-        const active = Array.isArray(_activeBudget)
-          ? _activeBudget[0]
-          : _activeBudget;
-
-        setActiveBudget(active || null);
-
-        if (!active || !active.id) {
-          setTransaction([]);
-          return;
-        }
-
-        const _transaction = await getTransactionByBudgetRequest(
-          active.id,
-          date,
-          20,
-          0,
-          user.accessToken,
-        );
-
-        setTransaction(Array.isArray(_transaction) ? _transaction : []);
+        await loadActiveBudgetSnapshot(user.accessToken);
       } catch (error) {
         console.error("Transaction loadBudget error:", error);
-        setTransaction([]);
       }
     };
 
     loadBudget();
   }, [user?.accessToken]);
+
+  useEffect(() => {
+    if (!activeBudget?.id || !user?.accessToken) return undefined;
+
+    const socket = connectBudgetSocket(activeBudget.id, async () => {
+      try {
+        await loadActiveBudgetSnapshot(user.accessToken);
+      } catch (error) {
+        console.error("Transaction socket refresh error:", error);
+      }
+    });
+
+    return () => {
+      socket?.disconnect();
+    };
+  }, [activeBudget?.id, user?.accessToken]);
 
   return (
     <AppBackground>
@@ -66,7 +60,7 @@ export default function Transaction({ navigation }) {
         ) : (
           <Text style={styles.subtitle}>No active budget</Text>
         )}
-        <ListTransactions transaction={transaction} />
+        <ListTransactions transaction={transactions} />
       </View>
     </AppBackground>
   );

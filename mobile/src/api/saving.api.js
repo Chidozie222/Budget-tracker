@@ -1,19 +1,11 @@
-import { BASE_URL } from "./shareDate.api";
+import { BASE_URL, fetchWithAuth } from "./shareDate.api";
 
 export const listSavingsRequest = async (budgetId, accessToken) => {
   try {
-    const response = await fetch(`${BASE_URL}/savings/${budgetId}`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/savings/${budgetId}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Failed to fetch savings");
-    }
 
     return Array.isArray(data) ? data : (data?.data ?? []);
   } catch (error) {
@@ -31,7 +23,6 @@ export const createSavingRequest = async ({
   accessToken,
 }) => {
   try {
-    console.log(budgetId)
     if (!budgetId) {
       throw new Error("Budget is required");
     }
@@ -41,11 +32,11 @@ export const createSavingRequest = async ({
       throw new Error("Amount must be greater than zero");
     }
 
-    const response = await fetch(`${BASE_URL}/savings`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/savings`, {
       method: "POST",
+      accessToken,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         budgetId,
@@ -55,12 +46,6 @@ export const createSavingRequest = async ({
         date: date || null,
       }),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Failed to create saving");
-    }
 
     return data;
   } catch (error) {

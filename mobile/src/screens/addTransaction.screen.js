@@ -10,18 +10,23 @@ import {
 } from "react-native";
 import AppBackground from "../components/background.component";
 import { createTransactionRequest } from "../api/transactionCreate.api";
-import { getCategoriesRequest } from "../api/category.api";
-import { activeBudgetRequest } from "../api/budget.api";
 import { useAuth } from "../store/auth.context";
+import { useAppStore } from "../store/app.store";
 import { COLORS } from "../styles/style";
 
 const AddTransactionScreen = ({ navigation }) => {
   const { user } = useAuth();
+  const {
+    activeBudget,
+    categories,
+    setActiveBudget,
+    setCategories,
+    loadActiveBudgetSnapshot,
+    loadCategoriesForActiveBudget,
+  } = useAppStore();
   const [amount, setAmount] = useState("");
   const [description, setDescription] = useState("");
-  const [categories, setCategories] = useState([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-  const [activeBudget, setActiveBudget] = useState(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -29,11 +34,11 @@ const AddTransactionScreen = ({ navigation }) => {
       if (!user?.accessToken) return;
 
       try {
-        const budget = await activeBudgetRequest(user.accessToken);
-        const active = Array.isArray(budget) ? budget[0] : budget;
+        const snapshot = await loadActiveBudgetSnapshot(user.accessToken);
+        const active = snapshot?.activeBudget || activeBudget;
         setActiveBudget(active || null);
 
-        const fetchedCategories = await getCategoriesRequest(
+        const fetchedCategories = await loadCategoriesForActiveBudget(
           user.accessToken,
           active?.id ?? null,
         );
@@ -43,7 +48,10 @@ const AddTransactionScreen = ({ navigation }) => {
           : [];
         setCategories(safeCategories);
 
-        if (safeCategories.length && !safeCategories.some((item) => item.id === selectedCategoryId)) {
+        if (
+          safeCategories.length &&
+          !safeCategories.some((item) => item.id === selectedCategoryId)
+        ) {
           setSelectedCategoryId(safeCategories[0].id);
         }
       } catch (error) {
@@ -91,13 +99,14 @@ const AddTransactionScreen = ({ navigation }) => {
       Alert.alert("Success", "Transaction saved successfully.");
       navigation.goBack();
     } catch (error) {
-      Alert.alert("Save failed", error.message || "Unable to save transaction.");
+      Alert.alert(
+        "Save failed",
+        error.message || "Unable to save transaction.",
+      );
     } finally {
       setLoading(false);
     }
   };
-
-  console.log(categories)
 
   return (
     <AppBackground>
@@ -133,10 +142,16 @@ const AddTransactionScreen = ({ navigation }) => {
                 key={item.id}
                 activeOpacity={0.9}
                 onPress={() => setSelectedCategoryId(item.id)}
-                style={[styles.chip, selectedCategoryId === item.id && styles.chipActive]}
+                style={[
+                  styles.chip,
+                  selectedCategoryId === item.id && styles.chipActive,
+                ]}
               >
                 <Text
-                  style={[styles.chipText, selectedCategoryId === item.id && styles.chipTextActive]}
+                  style={[
+                    styles.chipText,
+                    selectedCategoryId === item.id && styles.chipTextActive,
+                  ]}
                 >
                   {item.name}
                 </Text>
@@ -164,7 +179,10 @@ const AddTransactionScreen = ({ navigation }) => {
 
         <TouchableOpacity
           activeOpacity={0.9}
-          style={[styles.primaryButton, loading && styles.primaryButtonDisabled]}
+          style={[
+            styles.primaryButton,
+            loading && styles.primaryButtonDisabled,
+          ]}
           onPress={handleSave}
           disabled={loading}
         >

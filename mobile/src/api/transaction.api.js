@@ -1,4 +1,4 @@
-import { BASE_URL } from "./shareDate.api";
+import { BASE_URL, fetchWithAuth } from "./shareDate.api";
 
 export const listTransactionsRequest = async (
   budgetId,
@@ -19,18 +19,10 @@ export const listTransactionsRequest = async (
 
     const url = `${BASE_URL}/transactions/${budgetId}${params.toString() ? `?${params.toString()}` : ""}`;
 
-    const response = await fetch(url, {
+    const { data } = await fetchWithAuth(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Something is wrong");
-    }
 
     return Array.isArray(data) ? data : (data?.data ?? []);
   } catch (error) {
@@ -58,11 +50,11 @@ export const createTransactionRequest = async ({
       throw new Error("Valid budget, category, and amount are required");
     }
 
-    const response = await fetch(`${BASE_URL}/transactions`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/transactions`, {
       method: "POST",
+      accessToken,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({
         budgetId,
@@ -71,12 +63,6 @@ export const createTransactionRequest = async ({
         description: description?.trim() || null,
       }),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Failed to create transaction");
-    }
 
     return data;
   } catch (error) {
@@ -109,18 +95,10 @@ export const getTransactionByBudgetRequest = async (
 
     const url = `${BASE_URL}/transactions/trans/${budgetId}?${params.toString()}`;
 
-    const response = await fetch(url, {
+    const { data } = await fetchWithAuth(url, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Something is wrong");
-    }
 
     return Array.isArray(data) ? data : (data?.data ?? []);
   } catch (error) {

@@ -1,19 +1,11 @@
-import { BASE_URL } from "./shareDate.api";
+import { BASE_URL, fetchWithAuth } from "./shareDate.api";
 
 export const listExpensesRequest = async (budgetId, accessToken) => {
   try {
-    const response = await fetch(`${BASE_URL}/expenses/${budgetId}`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/expenses/${budgetId}`, {
       method: "GET",
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
+      accessToken,
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Failed to fetch expenses");
-    }
 
     return Array.isArray(data) ? data : (data?.data ?? []);
   } catch (error) {
@@ -28,20 +20,14 @@ export const createExpenseRequest = async (expenses, accessToken) => {
       throw new Error("Expenses list is required");
     }
 
-    const response = await fetch(`${BASE_URL}/expenses`, {
+    const { data } = await fetchWithAuth(`${BASE_URL}/expenses`, {
       method: "POST",
+      accessToken,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ expenses }),
     });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data?.message || "Failed to create expenses");
-    }
 
     return data;
   } catch (error) {

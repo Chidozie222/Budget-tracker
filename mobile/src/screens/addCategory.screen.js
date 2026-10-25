@@ -8,9 +8,9 @@ import {
   View,
 } from "react-native";
 import AppBackground from "../components/background.component";
-import { createCategoryRequest, getCategoriesRequest } from "../api/category.api";
-import { activeBudgetRequest } from "../api/budget.api";
+import { createCategoryRequest } from "../api/category.api";
 import { useAuth } from "../store/auth.context";
+import { useAppStore } from "../store/app.store";
 import { COLORS } from "../styles/style";
 
 const colors = [
@@ -24,10 +24,16 @@ const colors = [
 
 const AddCategoryScreen = ({ navigation }) => {
   const { user } = useAuth();
+  const {
+    activeBudget,
+    categories,
+    setActiveBudget,
+    setCategories,
+    loadActiveBudgetSnapshot,
+    loadCategoriesForActiveBudget,
+  } = useAppStore();
   const [name, setName] = useState("");
   const [selectedColor, setSelectedColor] = useState("green");
-  const [activeBudget, setActiveBudget] = useState(null);
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -35,12 +41,15 @@ const AddCategoryScreen = ({ navigation }) => {
       if (!user?.accessToken) return;
 
       try {
-        const budget = await activeBudgetRequest(user.accessToken);
-        const active = Array.isArray(budget) ? budget[0] : budget;
+        const snapshot = await loadActiveBudgetSnapshot(user.accessToken);
+        const active = snapshot?.activeBudget || activeBudget;
         setActiveBudget(active || null);
 
         if (active?.id) {
-          const fetched = await getCategoriesRequest(user.accessToken, active.id);
+          const fetched = await loadCategoriesForActiveBudget(
+            user.accessToken,
+            active.id,
+          );
           setCategories(Array.isArray(fetched) ? fetched : []);
         }
       } catch (error) {
@@ -58,7 +67,10 @@ const AddCategoryScreen = ({ navigation }) => {
     }
 
     if (!activeBudget?.id) {
-      Alert.alert("No active budget", "Create or select a budget before adding a category.");
+      Alert.alert(
+        "No active budget",
+        "Create or select a budget before adding a category.",
+      );
       return;
     }
 
@@ -136,7 +148,10 @@ const AddCategoryScreen = ({ navigation }) => {
 
         <TouchableOpacity
           activeOpacity={0.9}
-          style={[styles.primaryButton, loading && styles.primaryButtonDisabled]}
+          style={[
+            styles.primaryButton,
+            loading && styles.primaryButtonDisabled,
+          ]}
           onPress={handleSave}
           disabled={loading}
         >

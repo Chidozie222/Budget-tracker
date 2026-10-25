@@ -8,11 +8,11 @@ import {
   View,
 } from "react-native";
 import { dailySummaryRequest } from "../api/dailysummary.api";
-import { getBudgetsRequest } from "../api/budget.api";
 import { getTransactionByBudgetRequest } from "../api/transaction.api";
 import AppBackground from "../components/background.component";
 import ListTransactions from "../components/listTransaction.component";
 import { useAuth } from "../store/auth.context";
+import { useAppStore } from "../store/app.store";
 import { COLORS } from "../styles/style";
 
 const formatMoney = (value) => {
@@ -51,14 +51,20 @@ const formatRange = (budget) => {
 
 const BudgetListScreen = ({ navigation }) => {
   const { user } = useAuth();
-  const [budgets, setBudgets] = useState([]);
+  const { budgets, setBudgets, loadBudgets } = useAppStore();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadBudgets = async () => {
+    const loadBudgetList = async () => {
+      if (!user?.accessToken) {
+        setBudgets([]);
+        setLoading(false);
+        return;
+      }
+
       try {
-        const data = await getBudgetsRequest(user.accessToken);
         const today = new Date().toISOString().slice(0, 10);
+        const data = await loadBudgets(user.accessToken);
 
         const enriched = await Promise.all(
           (Array.isArray(data) ? data : []).map(async (budget) => {
@@ -96,9 +102,7 @@ const BudgetListScreen = ({ navigation }) => {
       }
     };
 
-    if (user?.accessToken) {
-      loadBudgets();
-    }
+    loadBudgetList();
   }, [user?.accessToken]);
 
   if (loading) {
