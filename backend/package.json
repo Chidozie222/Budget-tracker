@@ -6,7 +6,8 @@
   "scripts": {
     "start:dev": "nodemon index.js",
     "create-table": "node ./src/models/runSchema.js",
-    "addDefault-category": "node ./src/utils/addCategory.utility.js"
+    "addDefault-category": "node ./src/utils/addCategory.utility.js",
+    "setup": "npm run create-table && npm run addDefault-category"
   },
   "keywords": [],
   "author": "",
