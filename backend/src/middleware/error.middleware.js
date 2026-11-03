@@ -26,5 +26,6 @@ export const error = (err, req, res, next) => {
 
   res.status(statusCode).json({
     message,
+    error: err.message,
   });
 };
