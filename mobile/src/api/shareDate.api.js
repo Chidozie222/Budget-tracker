@@ -1,4 +1,4 @@
-export const BASE_URL = "https://budget-tracker-beige-seven.vercel.app/api/v1";
+export const BASE_URL = "https://budget-tracker-6el4.onrender.com/api/v1";
 
 let refreshAccessTokenHandler = null;
 let signOutHandler = null;

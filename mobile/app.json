@@ -16,7 +16,8 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "package": "com.chidozie222.Budgettracker"
+      "package": "com.chidozie222.Budgettracker",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"

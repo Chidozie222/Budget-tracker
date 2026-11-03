@@ -12,8 +12,15 @@
       "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true
-    }
+      "autoIncrement": true,
+      "env": {
+        "EXPO_PUBLIC_API_URL": "https://budget-tracker-6el4.onrender.com/api/v1"
+      }
+    },
+      "production-apk": {
+        "extends": "production",
+        "android": { "buildType": "apk" }
+      }
   },
   "submit": {
     "production": {}
