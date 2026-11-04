@@ -188,8 +188,10 @@ export default function Home() {
                           : "▥"}
                   </Text>
                 </View>
-                <Text style={styles.statLabel}>{item.name}</Text>
-                <Text style={styles.statValue}>{item.data}</Text>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.statLabel}>{item.name}</Text>
+                  <Text style={styles.statValue}>{item.data}</Text>
+                </View>
               </View>
             ))}
           </View>
